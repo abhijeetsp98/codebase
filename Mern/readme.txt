@@ -1,8 +1,3 @@
-#Frontend
-1. Create a new react application
-
-
-
 #Backend
 
 ## Step 1 : (Install dependency)
@@ -47,3 +42,37 @@ mongoose.connect(MONGOURL)
 1. [Model] This is to manage structure of data and interaction with database
 2. [controller] This is to handle request and generating the response
 3. [Routes] This is to define endpoint of the application and map them to controller method.
+
+Model - Schema
+So in model folder we will be creating a userModel.js file which will have the information
+about the schema of the data we want to store. We will export that to other component.
+
+Controller - Database operations
+We will import the schema and use it inside the controller like mentioned below
+export const create = async(req, res) => {
+    const newUser = new User(req.body);
+    const {email} = newUser;
+    const savedData = await newUser.save();
+    res.status(200).json(savedData)
+}
+
+Routes - Handle CRUD API request
+const route = express.Router();
+route.post("/user", create)
+we will add it as an middle ware in the index.js file
+
+
+#How to add new backend API
+1. Add route in the userRoute example (route.get("/users", getAllUsers))
+2. Then add the function getAllUsers
+
+Thats all for backend code just start the backend with "node index.js" command 
+
+
+
+
+
+
+
+## Frontend
+1. 
