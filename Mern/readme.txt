@@ -206,3 +206,12 @@ import {Link} from "react-router-dom";
             Add User <i class="fa-solid fa-pen-to-square"></i>           
 </Link>
 
+## We will create an add user form 
+
+We will create a function called inputHandler where e is event object triggered by the input change
+e.target refers to the element which has triggered the event and there we will be accessing name parameter of the html tag and value
+will be the value entered by the user.
+
+const inputHandler = (e) => {
+    const {name, value} = e.target
+  }
