@@ -2,6 +2,9 @@ import './App.css';
 import {RouterProvider, createBrowserRouter} from "react-router-dom"
 import User from  './getuser/User';
 import AddUser from './adduser/AddUser';
+import Sidebar from './components/Sidebar';
+import { Content } from './components/Content';
+import { Profile } from './components/Profile';
 
 function App() {
   const route = createBrowserRouter([
@@ -16,7 +19,13 @@ function App() {
   ]);
   return (
     <div className="App">
-        <RouterProvider router={route}></RouterProvider>
+        <Sidebar/>
+        <div className='dashboard--content'>
+          <Content/>
+          <Profile/>
+          <RouterProvider router={route}></RouterProvider>
+        </div>
+        
     </div>
   );
 }

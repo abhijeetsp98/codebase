@@ -1,0 +1,19 @@
+.content{
+   width : 75%; 
+}
+
+.content--header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header--title{
+    color: #526d82
+}
+
+.header--activity{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
