@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL
+
 const AddUser = () => {
   const users = {
     name: "",
@@ -23,7 +25,7 @@ const AddUser = () => {
   const submitForm = async (e) => {
     e.preventDefault();
     await axios
-      .post("http://localhost:8000/api/user", user)
+      .post(`${BASE_URL}/api/users`, user)
       .then((response) => {
         toast.success(response.data.message, { position: "top-right" });
         navigate("/");

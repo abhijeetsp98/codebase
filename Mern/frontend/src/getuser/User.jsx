@@ -3,14 +3,15 @@ import "./user.css"
 import axios from 'axios'
 import {Link} from "react-router-dom";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL
+
 export const User = () => {
 
     const [users, setUsers] = useState([])
     useEffect(()=>{
         const fetchData = async () => {
             try{
-
-                const response = await axios.get("http://localhost:8000/api/users")
+                const response = await axios.get(`${BASE_URL}/api/users`)
                 setUsers(response.data)
             }catch(error){
                 console.log("Error while fetching data :", error)
