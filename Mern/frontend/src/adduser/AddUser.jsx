@@ -25,7 +25,7 @@ const AddUser = () => {
   const submitForm = async (e) => {
     e.preventDefault();
     await axios
-      .post(`${BASE_URL}/api/users`, user)
+      .post(`${BASE_URL}/api/user`, user)
       .then((response) => {
         toast.success(response.data.message, { position: "top-right" });
         navigate("/");
