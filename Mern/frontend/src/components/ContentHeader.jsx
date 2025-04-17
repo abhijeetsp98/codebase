@@ -1,7 +1,7 @@
 import React from 'react'
 import { BiSearch, BiNotification } from 'react-icons/bi'
 
-export const ContentHeader = () => {
+const ContentHeader = () => {
   return (
     <div className='content--header'>
         <h1 className='header--title'>Dashboard</h1>
@@ -17,3 +17,5 @@ export const ContentHeader = () => {
     </div>
   )
 }
+
+export default ContentHeader;

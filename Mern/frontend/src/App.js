@@ -2,9 +2,10 @@ import './App.css';
 import {RouterProvider, createBrowserRouter} from "react-router-dom"
 import User from  './getuser/User';
 import AddUser from './adduser/AddUser';
+import Update from "./updateuser/update";
 import Sidebar from './components/Sidebar';
-import { Content } from './components/Content';
-import { Profile } from './components/Profile';
+import Content from './components/Content';
+import Profile from './components/Profile';
 
 function App() {
   const route = createBrowserRouter([
@@ -15,7 +16,11 @@ function App() {
     {
       path : "/add",
       element : <AddUser/>
-    }
+    },
+    {
+      path: "/update/:id",
+      element: <Update />,
+    },
   ]);
   return (
     <div className="App">
