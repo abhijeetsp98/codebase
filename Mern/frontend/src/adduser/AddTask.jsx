@@ -6,26 +6,27 @@ import toast from "react-hot-toast";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
-const AddUser = () => {
-  const users = {
-    name: "",
-    email: "",
-    address: "",
+const AddTask = () => {
+  const tasks = {
+    "dishname": "",
+    "ingredients": "",
+    "chefname": "",
+    "noofplates": "",
   };
-  const [user, setUser] = useState(users);
+  const [task, setTask] = useState(tasks);
   const navigate = useNavigate();
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
     console.log(name, value);
 
-    setUser({ ...user, [name]: value });
+    setTask({ ...task, [name]: value });
   };
 
   const submitForm = async (e) => {
     e.preventDefault();
     await axios
-      .post(`${BASE_URL}/api/user`, user)
+      .post("http://localhost:8000/api/addtask", task)
       .then((response) => {
         toast.success(response.data.message, { position: "top-right" });
         navigate("/");
@@ -41,39 +42,50 @@ const AddUser = () => {
         <i class="fa-solid fa-backward"></i> Back
       </Link>
 
-      <h3>Add New User</h3>
+      <h3>Add New Task</h3>
       <form className="addUserForm" onSubmit={submitForm}>
         <div className="inputGroup">
-          <label htmlFor="name">Name:</label>
+          <label htmlFor="dishname">Dish Name:</label>
           <input
             type="text"
-            id="name"
+            id="dishname"
             onChange={inputHandler}
-            name="name"
+            name="dishname"
             autoComplete="off"
-            placeholder="Enter your Name"
+            placeholder="Enter Dish Name"
           />
         </div>
         <div className="inputGroup">
-          <label htmlFor="email">E-mail:</label>
+          <label htmlFor="ingredients">Ingredients:</label>
           <input
-            type="email"
-            id="email"
+            type="text"
+            id="ingredients"
             onChange={inputHandler}
-            name="email"
+            name="ingredients"
             autoComplete="off"
-            placeholder="Enter your Email"
+            placeholder="Enter All Ingredients"
           />
         </div>
         <div className="inputGroup">
-          <label htmlFor="address">Address:</label>
+          <label htmlFor="chefname">Chef Name:</label>
+          <input
+            type="text"
+            id="chefname"
+            onChange={inputHandler}
+            name="chefname"
+            autoComplete="off"
+            placeholder="Enter Chef Name"
+          />
+        </div>
+        <div className="inputGroup">
+          <label htmlFor="address">No. of Plates:</label>
           <input
             type="text"
             id="address"
             onChange={inputHandler}
-            name="address"
+            name="noofplates"
             autoComplete="off"
-            placeholder="Enter your Address"
+            placeholder="Enter No. Plates"
           />
         </div>
         <div className="inputGroup">
@@ -86,4 +98,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default AddTask;

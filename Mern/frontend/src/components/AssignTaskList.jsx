@@ -25,13 +25,12 @@ const teachers = [
   }
 ]
 
-const TeacherList = () => {
-
+const AssignTaskList = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/users");
+        const response = await axios.get("http://localhost:8000/api/alltask");
         setUsers(response.data);
       } catch (error) {
         console.log("Error while fetching data", error);
@@ -56,7 +55,7 @@ const TeacherList = () => {
     <div>
       <div className='teacher--list'>
         <div className='list--header'>
-          <h2>Task list</h2>
+          <h2>Assigned Task list</h2>
           <select>
             <option value="English"> English</option>
             <option value="English"> Hindi</option>
@@ -67,9 +66,10 @@ const TeacherList = () => {
       <div className='list--container'>
         {users.map((teacher) => (
           <div className='list'>
-            <h4>Owner : {teacher.name} </h4>
-            <span>DishName {teacher.email} </span> 
-            <span>Time : {teacher.address} </span> 
+            <h4>Owner : {teacher.chefname} </h4>
+            <span>DishName {teacher.dishname} </span> 
+            <span>Ingredients : {teacher.ingredients} </span> 
+            <span>No of Plates : {teacher.noofplates} </span>
           </div>
         ))}
 
@@ -78,4 +78,4 @@ const TeacherList = () => {
   )
 }
 
-export default TeacherList
+export default AssignTaskList

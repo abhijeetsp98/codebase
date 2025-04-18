@@ -1,15 +1,20 @@
-import User from "../model/userModel.js"
+import Task from "../model/userModel.js"
 
-export const create = async(req, res) => {
+export const createTask = async(req, res) => {
+    console.log("BACKEND : Inside create task funtion.")
     try{
-        const newUser = new User(req.body);
-        const {email} = newUser;
+        const newTask = new Task(req.body);
+        // const {email} = newTask;
+        // console.log(newTask, email)
+        // const taskExist = await Task.findOne({email})
 
-        const userExist = await User.findOne({email})
-        if(userExist){
-            return res.status(400).json({message: "User already exisit."})
-        }
-        const savedData = await newUser.save();
+        // console.log(email, taskExist)
+        // if(taskExist){
+        //     return res.status(400).json({message: "Task already exisit."})
+        // }
+        console.log(req.body)
+        const savedData = await newTask.save();
+        console.log(savedData, newTask )
         res.status(200).json(savedData)
 
     } catch(error) {
@@ -17,13 +22,14 @@ export const create = async(req, res) => {
     }
 }
 
-export const getAllUsers = async(req, res) => {
+export const getAllTask = async(req, res) => {
+    console.log("BACKEND : Inside get all task function")
     try{
-        const userData =  await User.find();
-        if(!userData || userData.length === 0){
-            return res.status(404).json({message:"There is no user added in the DB."})
+        const taskData =  await Task.find();
+        if(!taskData || taskData.length === 0){
+            return res.status(404).json({message:"There is no task added in the DB."})
         }
-        res.status(200).json(userData);
+        res.status(200).json(taskData);
     } catch(error){
         res.status(500).json({errorMessage:error.message})
     }

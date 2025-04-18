@@ -6,27 +6,26 @@ import { Link } from "react-router-dom";
 
 const teachers = [
   {
-    name:"Abhijeet",
+    name:"Akshay",
     duration: '2hr',
     cost: '$100',
     dish: "Pizza"
   },
   {
-    name:"Akshay",
+    name:"Cheery",
     duration: '1hr',
     cost: '$70',
     dish: "Burger"
   },
   {
-    name:"Rahul",
+    name:"Sam",
     duration: '5hr',
     cost: '500',
     dish : "Pastry"
   }
 ]
 
-const TeacherList = () => {
-
+const AssignTaskList = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -56,7 +55,7 @@ const TeacherList = () => {
     <div>
       <div className='teacher--list'>
         <div className='list--header'>
-          <h2>Task list</h2>
+          <h2>Completed Task list</h2>
           <select>
             <option value="English"> English</option>
             <option value="English"> Hindi</option>
@@ -65,17 +64,17 @@ const TeacherList = () => {
       </div>
 
       <div className='list--container'>
-        {users.map((teacher) => (
+        {teachers.map((teacher) => (
           <div className='list'>
             <h4>Owner : {teacher.name} </h4>
-            <span>DishName {teacher.email} </span> 
-            <span>Time : {teacher.address} </span> 
+            <span>DishName {teacher.duration} </span> 
+            <span>Time : {teacher.cost} </span> 
+            <span>Time : {teacher.dish} </span> 
           </div>
         ))}
-
       </div>
     </div>
   )
 }
 
-export default TeacherList
+export default AssignTaskList
