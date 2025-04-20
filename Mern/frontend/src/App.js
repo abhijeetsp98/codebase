@@ -7,6 +7,7 @@ import CompletedTask from './components/CompletedTask';
 import Sidebar from './components/Sidebar';
 import Content from './components/Content';
 import Profile from './components/Profile';
+import TaskDetail from './components/TaskDetail';
 
 function App() {
   const route = createBrowserRouter([
@@ -26,6 +27,10 @@ function App() {
       path: "/createtask",
       element: <AddTask />,
     },
+    {
+      path : '/tasks/:id',
+      element: <TaskDetail />
+    }
   ]);
   return (
     <div className="App">

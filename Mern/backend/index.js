@@ -1,26 +1,28 @@
 import express from "express"
-import mongoose, { mongo } from "mongoose"
-import bodyParser from "body-parser"
 import dotenv from "dotenv"
-import route from "./routes/userRoute.js"
 import cors from 'cors'
 
-const app = express();
-app.use(bodyParser.json());
-app.use(cors());
+import route from "./routes/userRoute.js"
+import connectDB from "./config/db.js"
+
+import authRoutes from './routes/authRoutes.js';
+import dishRoutes from './routes/dishRoutes.js';
+import taskRoutes from './routes/taskRoutes.js';
+
 dotenv.config();
+connectDB();
 
-const PORT = process.env.PORT || 7000;
-const MONGOURL = process.env.MONGO_URL;
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-mongoose.connect(MONGOURL)
-        .then(()=>{
-            console.log("DB is connected")
-            app.listen(PORT, ()=>{
-                console.log(`Server is connected : ${PORT}`)
-            });
-        })
-        .catch((error)=>console.log(error));
-
-// middleware
+app.use('/api/auth', authRoutes);
+app.use('/api/dish', dishRoutes);
+app.use('/api/tasks', taskRoutes);
 app.use("/api", route);
+
+// 🟢 Start the server
+const PORT = process.env.PORT || 7000;
+app.listen(PORT, () => {
+  console.log(`✅ Server is running on http://localhost:${PORT}`);
+});

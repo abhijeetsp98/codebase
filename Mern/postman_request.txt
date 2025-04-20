@@ -1,0 +1,71 @@
+Auth
+
+1. Register
+API : POST
+URL : http://localhost:8000/api/auth/register
+Body : {
+  "name": "Admin User",
+  "email": "admin@example.com",
+  "password": "admin123",
+  "role": "admin"
+}
+
+2. Login
+API : POST
+URL : http://localhost:8000/api/auth/login
+Body : {
+  "email": "admin@example.com",
+  "password": "admin123"
+}
+Response will be : {
+    {
+    "_id": "6803c7bdd715dec4756af739",
+    "name": "Admin User",
+    "email": "admin@example.com",
+    "role": "admin",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MDNjN2JkZDcxNWRlYzQ3NTZhZjczOSIsImlhdCI6MTc0NTE3Nzk3OSwiZXhwIjoxNzQ1NzgyNzc5fQ.mg6IqwX3yjyhD6G-1XhsyndzEVL7RDrGkbtrY4SpeVs"
+}
+}
+
+
+###   DISH   ## 
+API : POST
+URL : http://localhost:8000/api/dish
+Body : {
+  "name": "Paneer Butter Masala",
+  "description": "Creamy paneer curry",
+  "ingredients": ["paneer", "butter", "cream", "spices"],
+  "image": "https://example.com/image.jpg"
+}
+Header : {
+    Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MDNjN2JkZDcxNWRlYzQ3NTZhZjczOSIsImlhdCI6MTc0NTE3Nzk3OSwiZXhwIjoxNzQ1NzgyNzc5fQ.mg6IqwX3yjyhD6G-1XhsyndzEVL7RDrGkbtrY4SpeVs
+    Content-Type : application/json
+}
+
+Response: {
+    "name": "Paneer Butter Masala",
+    "description": "Creamy paneer curry",
+    "ingredients": [
+        "paneer",
+        "butter",
+        "cream",
+        "spices"
+    ],
+    "image": "https://example.com/image.jpg",
+    "createdBy": "6803c7bdd715dec4756af739",
+    "_id": "68054ed217ba1731580702db",
+    "createdAt": "2025-04-20T19:45:22.347Z",
+    "updatedAt": "2025-04-20T19:45:22.347Z",
+    "__v": 0
+}
+
+
+## Register a chef ##
+API : POST
+URL : http://localhost:5000/api/auth/register
+Body : {
+  "name": "Chef Ram",
+  "email": "chef@example.com",
+  "password": "chef123",
+  "role": "chef"
+}
