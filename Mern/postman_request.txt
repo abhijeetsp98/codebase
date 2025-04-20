@@ -1,4 +1,4 @@
-Auth
+Auth (UI localhost:3000/login and localhost:3000/register)
 
 1. Register
 API : POST
@@ -69,3 +69,7 @@ Body : {
   "password": "chef123",
   "role": "chef"
 }
+
+
+
+## Create a task ##

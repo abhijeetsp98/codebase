@@ -7,39 +7,43 @@ import CompletedTask from './components/CompletedTask';
 import Sidebar from './components/Sidebar';
 import Content from './components/Content';
 import Profile from './components/Profile';
-import TaskDetail from './components/TaskDetail';
+import Register from './components/Register';
+import Login from './components/Login';
 
 function App() {
   const route = createBrowserRouter([
     {
-      path : "/",
-      element : <AssignTask/>,
+      path: "/",
+      element: <AssignTask />,
     },
     {
-      path : "/assigntask",
-      element : <AssignTask/>
+      path: "/assigntask",
+      element: <AssignTask />
     },
     {
-      path : "/completedtask",
-      element : <CompletedTask/>
+      path: "/completedtask",
+      element: <CompletedTask />
     },
     {
       path: "/createtask",
       element: <AddTask />,
     },
     {
-      path : '/tasks/:id',
-      element: <TaskDetail />
+      path: "/register",
+      element: <Register />
+    },
+    {
+      path: "/login",
+      element: <Login />
     }
   ]);
+
   return (
     <div className="App">
-        <Sidebar/>
-        <div className='dashboard--content'>
-          <RouterProvider router={route}></RouterProvider>
-          {/* <Profile/> */}
-        </div>
-        
+      <Sidebar />
+      <div className='dashboard--content'>
+        <RouterProvider router={route} />
+      </div>
     </div>
   );
 }
