@@ -1,48 +1,105 @@
 import './App.css';
-import {RouterProvider, createBrowserRouter} from "react-router-dom"
-import User from  './getuser/User';
-import AddTask from './adduser/AddTask';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import User from './getuser/User';
+// import AddTask from './adduser/AddTask';
 import AssignTask from './components/AssignTask';
 import CompletedTask from './components/CompletedTask';
 import Sidebar from './components/Sidebar';
 import Content from './components/Content';
 import Profile from './components/Profile';
+// import TaskDetail from './components/TaskDetail';
 import Register from './components/Register';
 import Login from './components/Login';
+import AddDish from './Dish/AddDish';
+import DishList from './Dish/DishList';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userName, setUserName] = useState('');
+
+  // Check if the user is logged in on page load
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsAuthenticated(true);
+      const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT to get user info
+      setUserName(decodedToken.name); // Assuming the name is part of the JWT payload
+    }
+  }, []);
+
+  // Log out the user and clear the token
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
+    setUserName('');
+  };
+
   const route = createBrowserRouter([
     {
-      path: "/",
+      path: '/',
       element: <AssignTask />,
     },
     {
-      path: "/assigntask",
-      element: <AssignTask />
+      path: '/assigntask',
+      element: <AssignTask />,
     },
     {
-      path: "/completedtask",
-      element: <CompletedTask />
+      path: '/completedtask',
+      element: <CompletedTask />,
     },
     {
-      path: "/createtask",
-      element: <AddTask />,
+      path: '/adddish',
+      element: <AddDish />,
     },
     {
-      path: "/register",
-      element: <Register />
+      path : 'alldish',
+      element: <DishList/>
+    },
+    // {
+    //   path: '/createtask',
+    //   element: <AddTask />,
+    // },
+    // {
+    //   path: '/tasks/:id',
+    //   element: <TaskDetail />,
+    // },
+    {
+      path: '/login',
+      element: <Login />,
     },
     {
-      path: "/login",
-      element: <Login />
-    }
+      path: '/register',
+      element: <Register />,
+    },
   ]);
 
   return (
     <div className="App">
       <Sidebar />
-      <div className='dashboard--content'>
+      <div className="dashboard--content">
         <RouterProvider router={route} />
+      </div>
+
+      {/* Header - Login/Register or User Profile */}
+      <div className="header">
+        <div className="header-content">
+          {isAuthenticated ? (
+            <div className="user-info">
+              <span>Hello, {userName}</span>
+              <button onClick={handleLogout} className="logout-btn">Logout</button>
+            </div>
+          ) : (
+            <div className="auth-buttons">
+              <button className="login-btn" onClick={() => window.location.href = '/login'}>
+                Login
+              </button>
+              <button className="register-btn" onClick={() => window.location.href = '/register'}>
+                Register
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

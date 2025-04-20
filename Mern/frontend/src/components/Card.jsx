@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 const tasks = [
     {
-        title : 'Assign Task',
+        title : 'Dish List',
         icon : <BiUserCircle />,
-        path : '/assigntask',
+        path : '/alldish',
     },
     {
         title : 'Completed Task',
@@ -13,9 +13,9 @@ const tasks = [
         path : '/completedtask',
     },
     {
-        title : 'Create Task',
+        title : 'Create Dish Task',
         icon : <BiAddToQueue />,
-        path : '/createtask',
+        path : '/adddish',
     }
 ]
 
