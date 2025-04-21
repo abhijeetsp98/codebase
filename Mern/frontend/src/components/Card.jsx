@@ -8,7 +8,7 @@ const tasks = [
         path : '/alldish',
     },
     {
-        title : 'Completed Task',
+        title : 'Assigned Task',
         icon : <BiCheckSquare />,
         path : '/completedtask',
     },
