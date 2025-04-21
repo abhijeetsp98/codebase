@@ -45,3 +45,12 @@ export const login = async (req, res) => {
   }
 };
 
+export const allUsers = async (req, res) => {
+  console.log("API : AUTH, CALL : user")
+  try {
+    const allUsers = await User.find();
+    res.status(200).json(allUsers);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch users" });
+  }
+};

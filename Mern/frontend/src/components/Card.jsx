@@ -10,7 +10,7 @@ const tasks = [
     {
         title : 'Assigned Task',
         icon : <BiCheckSquare />,
-        path : '/completedtask',
+        path : '/assigntask',
     },
     {
         title : 'Create Dish Task',
