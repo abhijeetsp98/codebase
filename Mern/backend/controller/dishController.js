@@ -1,6 +1,7 @@
 import Dish from "../model/Dish.js";
 
 export const createDish = async (req, res) => {
+  console.log("API : DISH, CALL : CreateDish")
   try {
     const { name, description, ingredients, image } = req.body;
     const dish = await Dish.create({
@@ -19,6 +20,7 @@ export const createDish = async (req, res) => {
 };
 
 export const getDishes = async (req, res) => {
+  console.log("API : DISH, CALL : GetDish")
   try {
     const dishes = await Dish.find().populate("createdBy", "name email");
     res.json(dishes);
@@ -30,6 +32,7 @@ export const getDishes = async (req, res) => {
 };
 
 export const getDishById = async (req, res) => {
+  console.log("API : DISH, CALL : getDishById")
   try {
     const dish = await Dish.findById(req.params.id).populate(
       "createdBy",

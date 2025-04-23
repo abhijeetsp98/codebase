@@ -1,7 +1,7 @@
 import React from 'react'
-import ContentHeader from './ContentHeader'
+import ContentHeader from '../components/ContentHeader'
 import "../styles/content.css" 
-import Card from './Card'
+import Card from '../components/HomeCard'
 import CompletedTaskList from './CompletedTaskList'
 
 const CompletedTask = () => {

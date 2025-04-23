@@ -19,25 +19,25 @@ const Sidebar = () => {
         </div>
 
         <div className='menu--list'>
-            <a href="#" className="item active">
+            <a href="/" className="item active">
                 <BiHome className='logo-icon'/>
-                Dashboard
+                Home
             </a>
-            <a href="#" className="item">
+            <a href="/alldish" className="item">
                 <BiTask className='logo-icon'/>
-                Assign
+                Dish
             </a>
-            <a href="#" className="item">
+            <a href="/allinventory" className="item">
                 <BiSolidReport className='logo-icon'/>
-                Report
+                Inventory
             </a>
-            <a href="#" className="item">
+            <a href="/alltask" className="item">
                 <BiStats className='logo-icon'/>
-                Stats
+                Task
             </a>
-            <a href="#" className="item">
+            <a href="/allchef" className="item">
                 <BiMessage className='logo-icon'/>
-                Message
+                Chef
             </a>
             <a href="#" className="item">
                 <BiHelpCircle className='logo-icon'/>

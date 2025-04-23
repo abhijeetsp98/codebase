@@ -3,8 +3,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import User from './getuser/User';
 // import AddTask from './adduser/AddTask';
-import AssignTask from './components/AssignTask';
-import CompletedTask from './components/CompletedTask';
+import AssignTask from './Task/AssignTask';
+import CompletedTask from './Task/CompletedTask';
 import Sidebar from './components/Sidebar';
 import Content from './components/Content';
 import Profile from './components/Profile';
@@ -12,7 +12,8 @@ import Profile from './components/Profile';
 import Register from './components/Register';
 import Login from './components/Login';
 import AddDish from './Dish/AddDish';
-import DishList from './Dish/DishList';
+import DishList from './Dish/AllDishList';
+import AllChefList from './Chef/AllChefList';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -40,30 +41,7 @@ function App() {
       path: '/',
       element: <AssignTask />,
     },
-    {
-      path: '/assigntask',
-      element: <AssignTask />,
-    },
-    {
-      path: '/completedtask',
-      element: <CompletedTask />,
-    },
-    {
-      path: '/adddish',
-      element: <AddDish />,
-    },
-    {
-      path : 'alldish',
-      element: <DishList/>
-    },
-    // {
-    //   path: '/createtask',
-    //   element: <AddTask />,
-    // },
-    // {
-    //   path: '/tasks/:id',
-    //   element: <TaskDetail />,
-    // },
+    //cred
     {
       path: '/login',
       element: <Login />,
@@ -72,6 +50,38 @@ function App() {
       path: '/register',
       element: <Register />,
     },
+    // Dish
+    {
+      path : '/alldish',
+      element: <DishList/>
+    },
+    {
+      path: '/adddish',
+      element: <AddDish />,
+    },
+    // Chef
+    {
+      path : '/allchef',
+      element: <AllChefList/>
+    },
+    {
+      path: '/adddish',
+      element: <AddDish />,
+    },
+    // Task
+    {
+      path: '/alltask',
+      element: <AssignTask />,
+    },
+    {
+      path: '/assigntask',
+      element: <AssignTask />,
+    },
+    {
+      path: '/completedtask',
+      element: <CompletedTask />,
+    },
+    
   ]);
 
   return (

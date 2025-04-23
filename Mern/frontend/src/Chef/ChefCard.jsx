@@ -3,23 +3,23 @@ import { useNavigate } from 'react-router-dom';
 
 const tasks = [
     {
-        title : 'Dish List',
+        title : 'All Chef',
         icon : <BiUserCircle />,
-        path : '/alldish',
+        path : '/allchef',
     },
     {
-        title : 'Assigned Task',
+        title : 'Add Chef',
         icon : <BiCheckSquare />,
-        path : '/assigntask',
+        path : '/register',
     },
     {
-        title : 'Create Dish Task',
+        title : 'Assign Chef',
         icon : <BiAddToQueue />,
-        path : '/adddish',
+        path : '/assignDish',
     }
 ]
 
-const Card = () => {      
+const ChefCard = () => {      
     const navigate = useNavigate();              
     return (
         <div className="card--container">
@@ -40,4 +40,4 @@ const Card = () => {
     )
 }
 
-export default Card;
+export default ChefCard;

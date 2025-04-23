@@ -2,17 +2,17 @@ import Task from '../model/Task.js';
 
 export const createTask = async (req, res) => {
   console.log("API : TASK, CALL : createTask")
-  const { dishId, assignedTo, status, notes, scheduledAt, priority } = req.body;
+  const { dishId, assignedTo, notes, scheduledAt, priority } = req.body;
   try {
     const task = new Task({
       dishId,
       assignedTo,
       assignedBy: req.user._id,
-      status,
       notes,
       scheduledAt,
       priority,
     });
+    
     const savedTask = await task.save();
     res.status(201).json(savedTask);
   } catch (err) {

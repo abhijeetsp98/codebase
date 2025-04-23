@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import DishCard from "./DishCard";
-import ContentHeader from '../components/ContentHeader';
 
-const AddChef = () => {
+const AddDish = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -48,8 +46,6 @@ const AddChef = () => {
 
   return (
     <div style={{ marginTop: "80px", textAlign: "center" }}>
-      <ContentHeader/>
-      <DishCard/>
       <h2>Add Dish</h2>
       <form onSubmit={handleSubmit} style={{ display: "inline-block", textAlign: "left" }}>
         <div>
@@ -97,4 +93,4 @@ const AddChef = () => {
   );
 };
 
-export default AddChef;
+export default AddDish;

@@ -3,7 +3,7 @@ import { createTask, getTasks } from '../controller/taskController.js';
 import { protect } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
-router.post('/', protect, createTask);
-router.get('/', protect, getTasks);
+router.post('/addtask', protect, createTask);
+router.get('/alltask', protect, getTasks);
 
 export default router;

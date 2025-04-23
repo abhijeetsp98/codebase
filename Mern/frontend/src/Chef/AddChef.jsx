@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import DishCard from "./DishCard";
+import DishCard from "./ChefCard";
 import ContentHeader from '../components/ContentHeader';
 
 const AddChef = () => {
@@ -50,7 +50,7 @@ const AddChef = () => {
     <div style={{ marginTop: "80px", textAlign: "center" }}>
       <ContentHeader/>
       <DishCard/>
-      <h2>Add Dish</h2>
+      <h2>Add Chef</h2>
       <form onSubmit={handleSubmit} style={{ display: "inline-block", textAlign: "left" }}>
         <div>
           <label>Name:</label><br />

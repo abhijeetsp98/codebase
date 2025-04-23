@@ -1,4 +1,4 @@
-import Task from "../model/userModel.js"
+import User from "../model/User.js";
 
 export const createTask = async(req, res) => {
     console.log("BACKEND : Inside create task funtion.")
@@ -22,14 +22,14 @@ export const createTask = async(req, res) => {
     }
 }
 
-export const getAllTask = async(req, res) => {
+export const getAllUser = async(req, res) => {
     console.log("BACKEND : Inside get all task function")
     try{
-        const taskData =  await Task.find();
-        if(!taskData || taskData.length === 0){
+        const userData =  await User.find();
+        if(!userData || userData.length === 0){
             return res.status(404).json({message:"There is no task added in the DB."})
         }
-        res.status(200).json(taskData);
+        res.status(200).json(userData);
     } catch(error){
         res.status(500).json({errorMessage:error.message})
     }
