@@ -10,6 +10,7 @@ import AddDish from './Dish/AddDish';
 import DishList from './Dish/DishList';
 import ChefList from './Chef/ChefList';
 import TaskList from './Task/TaskList';
+import UserList from './User/UserList';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -45,6 +46,10 @@ function App() {
     {
       path: '/register',
       element: <Register />,
+    },
+    {
+      path: '/allusers',
+      element: <UserList />,
     },
     // Dish
     {

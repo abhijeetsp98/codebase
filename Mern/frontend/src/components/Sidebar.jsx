@@ -35,9 +35,9 @@ const Sidebar = () => {
                 <BiStats className='logo-icon'/>
                 Task
             </a>
-            <a href="/allinventory" className="item">
+            <a href="/allusers" className="item">
                 <BiSolidReport className='logo-icon'/>
-                Inventory
+                Users
             </a>
             <a href="#" className="item">
                 <BiHelpCircle className='logo-icon'/>
