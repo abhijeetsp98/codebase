@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ChefCard from "./ChefCard";
 import ContentHeader from "../components/ContentHeader";
+import TaskCard from "./TaskCard";
 
-const AllChefList = () => {
-  const [allChef, setDishes] = useState([]);
+
+const TaskList = () => {
+  const [dishes, setDishes] = useState([]);
 
   useEffect(() => {
     const fetchDishes = async () => {
@@ -18,7 +19,7 @@ const AllChefList = () => {
         }
 
         // Send the token in the Authorization header
-        const res = await axios.get("http://localhost:8000/api/users/alluser", {
+        const res = await axios.get("http://localhost:8000/api/tasks/alltask", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -36,14 +37,14 @@ const AllChefList = () => {
   return (
     <div style={{ padding: "20px" }}>
       <ContentHeader />
-      <ChefCard/>
+      <TaskCard/>
 
-      <h2>All Chef List</h2>
-      {allChef.length === 0 ? (
+      <h2>All Task</h2>
+      {dishes.length === 0 ? (
         <p>No dishes available.</p>
       ) : (
         <ul style={{ listStyle: "none", padding: 0 }}>
-          {allChef.map((dish) => (
+          {dishes.map((dish) => (
             <li
               key={dish._id}
               style={{
@@ -53,12 +54,21 @@ const AllChefList = () => {
                 borderRadius: "5px",
               }}
             >
-              <h3>User : {dish.name}</h3>
-              {/* <p>
-                <strong>Description:</strong> {dish.description}
+              <h3>{dish.dishId.name}</h3>
+              <p>
+                <strong>Assigned To:</strong> {dish.assignedTo.name}
               </p>
               <p>
-                <strong>Ingredients:</strong> {dish.ingredients?.join(", ")}
+                <strong>Assigned By:</strong> {(dish.assignedBy.name)}
+              </p>
+              <p>
+                <strong>Priority:</strong> {(dish.assignedBy.name)}
+              </p>
+              <p>
+                <strong>Status: </strong> {(dish.assignedBy.name)}
+              </p>
+              <p>
+                <strong>Notes: </strong> {(dish.assignedBy.name)}
               </p>
               {dish.image && (
                 <img
@@ -67,10 +77,10 @@ const AllChefList = () => {
                   style={{ maxWidth: "200px", borderRadius: "5px" }}
                 />
               )}
-              <br/> */}
+              <br/>
               <button type="button" class="btn btn-info">Assign the task</button>
               <br></br>
-              <button type="button" class="btn btn-success">Mark task as completed</button>
+              <button type="button" class="btn btn-success">Mark task as complete</button>
             </li>
           ))}
         </ul>
@@ -79,4 +89,4 @@ const AllChefList = () => {
   );
 };
 
-export default AllChefList;
+export default TaskList;

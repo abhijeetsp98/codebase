@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import DishCard from "./DishCard";
+import ChefCard from "./ChefCard";
 import ContentHeader from "../components/ContentHeader";
 
-const AllTaskList = () => {
-  const [dishes, setDishes] = useState([]);
+const ChefList = () => {
+  const [allChef, setDishes] = useState([]);
 
   useEffect(() => {
     const fetchDishes = async () => {
@@ -18,7 +18,7 @@ const AllTaskList = () => {
         }
 
         // Send the token in the Authorization header
-        const res = await axios.get("http://localhost:8000/api/dish", {
+        const res = await axios.get("http://localhost:8000/api/users/alluser", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -36,14 +36,14 @@ const AllTaskList = () => {
   return (
     <div style={{ padding: "20px" }}>
       <ContentHeader />
-      <DishCard/>
+      <ChefCard/>
 
-      <h2>All Dishes</h2>
-      {dishes.length === 0 ? (
+      <h2>All Chef List</h2>
+      {allChef.length === 0 ? (
         <p>No dishes available.</p>
       ) : (
         <ul style={{ listStyle: "none", padding: 0 }}>
-          {dishes.map((dish) => (
+          {allChef.map((dish) => (
             <li
               key={dish._id}
               style={{
@@ -53,8 +53,8 @@ const AllTaskList = () => {
                 borderRadius: "5px",
               }}
             >
-              <h3>{dish.name}</h3>
-              <p>
+              <h3>Chef : {dish.name}</h3>
+              {/* <p>
                 <strong>Description:</strong> {dish.description}
               </p>
               <p>
@@ -67,10 +67,10 @@ const AllTaskList = () => {
                   style={{ maxWidth: "200px", borderRadius: "5px" }}
                 />
               )}
-              <br/>
+              <br/> */}
               <button type="button" class="btn btn-info">Assign the task</button>
               <br></br>
-              <button type="button" class="btn btn-success">Mark task as complete</button>
+              <button type="button" class="btn btn-success">Mark task as completed</button>
             </li>
           ))}
         </ul>
@@ -79,4 +79,4 @@ const AllTaskList = () => {
   );
 };
 
-export default AllTaskList;
+export default ChefList;

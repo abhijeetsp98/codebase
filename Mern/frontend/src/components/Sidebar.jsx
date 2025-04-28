@@ -15,7 +15,7 @@ const Sidebar = () => {
     <div className='menu'>
         <div className='logo'>
             <BiBookAlt className='logo-icon'/>
-            <h2>Inventory Applicaton</h2>
+            <h2>Inventory Management</h2>
         </div>
 
         <div className='menu--list'>
@@ -27,17 +27,17 @@ const Sidebar = () => {
                 <BiTask className='logo-icon'/>
                 Dish
             </a>
-            <a href="/allinventory" className="item">
-                <BiSolidReport className='logo-icon'/>
-                Inventory
+            <a href="/allchef" className="item">
+                <BiMessage className='logo-icon'/>
+                Chef
             </a>
             <a href="/alltask" className="item">
                 <BiStats className='logo-icon'/>
                 Task
             </a>
-            <a href="/allchef" className="item">
-                <BiMessage className='logo-icon'/>
-                Chef
+            <a href="/allinventory" className="item">
+                <BiSolidReport className='logo-icon'/>
+                Inventory
             </a>
             <a href="#" className="item">
                 <BiHelpCircle className='logo-icon'/>

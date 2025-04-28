@@ -1,19 +1,15 @@
 import './App.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import User from './getuser/User';
-// import AddTask from './adduser/AddTask';
-import AssignTask from './Task/AssignTask';
+import AddTask from './Task/AddTask';
 import CompletedTask from './Task/CompletedTask';
 import Sidebar from './components/Sidebar';
-import Content from './components/Content';
-import Profile from './components/Profile';
-// import TaskDetail from './components/TaskDetail';
 import Register from './components/Register';
 import Login from './components/Login';
 import AddDish from './Dish/AddDish';
-import DishList from './Dish/AllDishList';
-import AllChefList from './Chef/AllChefList';
+import DishList from './Dish/DishList';
+import ChefList from './Chef/ChefList';
+import TaskList from './Task/TaskList';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -39,7 +35,7 @@ function App() {
   const route = createBrowserRouter([
     {
       path: '/',
-      element: <AssignTask />,
+      element: <TaskList/>,
     },
     //cred
     {
@@ -62,7 +58,7 @@ function App() {
     // Chef
     {
       path : '/allchef',
-      element: <AllChefList/>
+      element: <ChefList/>
     },
     {
       path: '/adddish',
@@ -71,11 +67,11 @@ function App() {
     // Task
     {
       path: '/alltask',
-      element: <AssignTask />,
+      element: <TaskList/>,
     },
     {
-      path: '/assigntask',
-      element: <AssignTask />,
+      path: '/addtask',
+      element: <AddTask />,
     },
     {
       path: '/completedtask',
