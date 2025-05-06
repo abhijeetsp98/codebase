@@ -15,7 +15,7 @@ const Sidebar = () => {
     <div className='menu'>
         <div className='logo'>
             <BiBookAlt className='logo-icon'/>
-            <h2>Inventory Management</h2>
+            <h2>Inventory Management  System</h2>
         </div>
 
         <div className='menu--list'>
