@@ -9,6 +9,7 @@ import authRoutes from './routes/authRoutes.js';
 import dishRoutes from './routes/dishRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
 import userRoutes from './routes/userRoute.js';
+import labourRoute  from './routes/labourRoutes.js';
 
 dotenv.config();
 connectDB();
@@ -21,7 +22,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/dish', dishRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
-app.use("/api", route);
+app.use("/api/labour", labourRoute);
 
 // 🟢 Start the server
 const PORT = process.env.PORT || 7000;

@@ -15,10 +15,51 @@ const Sidebar = () => {
     <div className='menu'>
         <div className='logo'>
             <BiBookAlt className='logo-icon'/>
-            <h2>Inventory Management  System</h2>
+            <h2>Inventory Management</h2>
         </div>
 
         <div className='menu--list'>
+            <a href="/userManagement" className="item ">
+                <BiHome className='logo-icon'/>
+                Dashboard Overview
+            </a>
+            <a href="/userManagement" className="item ">
+                <BiHome className='logo-icon'/>
+                User Management
+            </a>
+            <a href="/allchef" className="item ">
+                <BiHome className='logo-icon'/>
+                Roles & Permissions
+            </a>
+            <a href="/" className="item ">
+                <BiHome className='logo-icon'/>
+                Inventory Management
+            </a>
+            <a href="/" className="item ">
+                <BiHome className='logo-icon'/>
+                Supplier Management
+            </a>
+            <a href="/" className="item ">
+                <BiHome className='logo-icon'/>
+                Order Management
+            </a>
+            <a href="/" className="item ">
+                <BiHome className='logo-icon'/>
+                Reports & Analytics
+            </a>
+            <a href="/" className="item ">
+                <BiHome className='logo-icon'/>
+                Settings
+            </a>
+            <a href="/" className="item ">
+                <BiHome className='logo-icon'/>
+                Help & Support
+            </a>
+           
+
+
+
+
             <a href="/" className="item active">
                 <BiHome className='logo-icon'/>
                 Home
