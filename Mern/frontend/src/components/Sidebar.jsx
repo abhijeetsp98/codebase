@@ -25,13 +25,13 @@ const Sidebar = () => {
             </a>
             <a href="/userManagement" className="item ">
                 <BiHome className='logo-icon'/>
-                User Management
+                Labour Management
             </a>
             <a href="/rolesManagement" className="item ">
                 <BiHome className='logo-icon'/>
-                Roles & Permissions
+                Admin Roles & Permissions
             </a>
-            <a href="/" className="item ">
+            <a href="/inventoryManagement" className="item ">
                 <BiHome className='logo-icon'/>
                 Inventory Management
             </a>

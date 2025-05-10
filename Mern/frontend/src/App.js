@@ -13,6 +13,7 @@ import TaskList from './Task/TaskList';
 import UserList from './User/UserList';
 import LabourList from './Labour/LabourList';
 import RolesManagement from './User/RolesManagement';
+import InventoryList from './Inventory/InventoryList';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,6 +49,10 @@ function App() {
     {
       path: '/rolesManagement',
       element: <RolesManagement/>,
+    },
+    {
+      path : '/inventoryManagement',
+      element: <InventoryList/>
     },
     //cred
     {

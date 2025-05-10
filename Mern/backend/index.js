@@ -10,6 +10,7 @@ import dishRoutes from './routes/dishRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
 import userRoutes from './routes/userRoute.js';
 import labourRoute  from './routes/labourRoutes.js';
+import inventoryRoute from './routes/inventoryRoutes.js'
 
 dotenv.config();
 connectDB();
@@ -23,6 +24,7 @@ app.use('/api/dish', dishRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
 app.use("/api/labour", labourRoute);
+app.use("/api/inventory", inventoryRoute);
 
 // 🟢 Start the server
 const PORT = process.env.PORT || 7000;
