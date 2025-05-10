@@ -14,6 +14,7 @@ import UserList from './User/UserList';
 import LabourList from './Labour/LabourList';
 import RolesManagement from './User/RolesManagement';
 import InventoryList from './Inventory/InventoryList';
+import Restaurant from './Task/Restaurants';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -98,7 +99,10 @@ function App() {
       path: '/completedtask',
       element: <CompletedTask />,
     },
-    
+    {
+      path: '/restaurants',
+      element: <Restaurant />,
+    }
   ]);
 
   return (

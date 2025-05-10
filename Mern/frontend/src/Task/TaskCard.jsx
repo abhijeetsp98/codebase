@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 const tasks = [
     {
+        title : 'Restaurants',
+        icon : <BiAddToQueue />,
+        path : '/restaurants',
+    },
+    {
         title : 'All Task',
         icon : <BiUserCircle />,
         path : '/alltask',
@@ -12,11 +17,7 @@ const tasks = [
         icon : <BiCheckSquare />,
         path : '/addtask',
     },
-    {
-        title : 'Assign Task',
-        icon : <BiAddToQueue />,
-        path : '/assignDish',
-    }
+    
 ]
 
 const TaskCard = () => {      
