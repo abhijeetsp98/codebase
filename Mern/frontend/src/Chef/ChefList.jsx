@@ -1,79 +1,190 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ChefCard from "./ChefCard";
+import toast from "react-hot-toast";
 import ContentHeader from "../components/ContentHeader";
+import { FaEdit } from "react-icons/fa";
 
 const ChefList = () => {
-  const [allChef, setDishes] = useState([]);
+  const [labours, setLabours] = useState([]);
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    ingredients: '',
+    image: '',
+  });
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post("http://localhost:8000/api/labour/addlabour", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Task created successfully");
+      setFormData({
+        name: "",
+        role: "",
+        hourlyRate: "",
+        hoursWorked: "",
+        totalEarning: "",
+      });
+    } catch (error) {
+      toast.error("Task creation failed");
+    }
+  };
 
   useEffect(() => {
-    const fetchDishes = async () => {
+    const fetchLabours = async () => {
       try {
-        const token = localStorage.getItem("token"); // Assumes the token is saved in localStorage after login
+        const token = localStorage.getItem("token");
 
-        // Check if token is available
         if (!token) {
           console.log("No token found");
           return;
         }
 
-        // Send the token in the Authorization header
-        const res = await axios.get("http://localhost:8000/api/users/alluser", {
+        const res = await axios.get("http://localhost:8000/api/labour/alllabour", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        setDishes(res.data);
+        setLabours(res.data);
       } catch (err) {
-        console.error("Failed to fetch dishes:", err);
+        console.error("Failed to fetch labours:", err);
       }
     };
 
-    fetchDishes();
+    fetchLabours();
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="container py-4">
       <ContentHeader />
-      <ChefCard/>
-
-      <h2>All Chef List</h2>
-      {allChef.length === 0 ? (
-        <p>No dishes available.</p>
-      ) : (
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {allChef.map((dish) => (
-            <li
-              key={dish._id}
-              style={{
-                border: "1px solid #ccc",
-                marginBottom: "15px",
-                padding: "10px",
-                borderRadius: "5px",
-              }}
-            >
-              <h3>Chef : {dish.name}</h3>
-              {/* <p>
-                <strong>Description:</strong> {dish.description}
-              </p>
-              <p>
-                <strong>Ingredients:</strong> {dish.ingredients?.join(", ")}
-              </p>
-              {dish.image && (
-                <img
-                  src={dish.image}
-                  alt={dish.name}
-                  style={{ maxWidth: "200px", borderRadius: "5px" }}
+      
+      <div className="card my-4">
+        <div className="card-header bg-primary text-white">
+          <h5 className="mb-0">Add New User</h5>
+        </div>
+        <div className="card-body">
+          <form onSubmit={handleSubmit}>
+            <div className="row g-3">
+              <div className="col-md-6">
+                <label className="form-label">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  className="form-control"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
                 />
-              )}
-              <br/> */}
-              <button type="button" class="btn btn-info">Assign the task</button>
-              <br></br>
-              <button type="button" class="btn btn-success">Mark task as completed</button>
-            </li>
-          ))}
-        </ul>
+              </div>
+
+              <div className="col-md-6">
+                <label className="form-label">Role</label>
+                <select
+                  name="role"
+                  className="form-select"
+                  value={formData.role}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select a Role</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Staff">Staff</option>
+                  <option value="Accountant">Accountant</option>
+                </select>
+              </div>
+
+              <div className="col-md-4">
+                <label className="form-label">Hourly Rate ($)</label>
+                <input
+                  type="number"
+                  name="hourlyRate"
+                  className="form-control"
+                  value={formData.hourlyRate}
+                  onChange={handleChange}
+                  step="0.01"
+                  min="0"
+                  required
+                />
+              </div>
+
+              <div className="col-md-4">
+                <label className="form-label">Hours Worked</label>
+                <input
+                  type="number"
+                  name="hoursWorked"
+                  className="form-control"
+                  value={formData.hoursWorked}
+                  onChange={handleChange}
+                  step="1"
+                  min="0"
+                  required
+                />
+              </div>
+
+              <div className="col-md-4">
+                <label className="form-label">Total Earned ($)</label>
+                <input
+                  type="number"
+                  name="totalEarning"
+                  className="form-control"
+                  value={formData.totalEarning}
+                  onChange={handleChange}
+                  step="1"
+                  min="0"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="mt-4 text-end">
+              <button type="submit" className="btn btn-success">
+                Add Labour
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <h2 className="mb-3">Roles List</h2>
+      {labours.length === 0 ? (
+        <div className="alert alert-warning">No labour available.</div>
+      ) : (
+        <div className="table-responsive">
+          <table className="table table-bordered table-striped table-hover">
+            <thead className="table-dark">
+              <tr>
+                <th>Role ID</th>
+                <th>Role Name</th>
+                <th>Permission</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {labours.map((labour, index) => (
+                <tr key={labour._id}>
+                  <td>{index + 1}</td>
+                  <td>{labour.name}</td>
+                  <td>{labour.role}</td>
+                  <td>
+                    <button className="btn btn-sm btn-outline-primary">
+                      <FaEdit />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

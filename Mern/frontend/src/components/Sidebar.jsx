@@ -27,7 +27,7 @@ const Sidebar = () => {
                 <BiHome className='logo-icon'/>
                 User Management
             </a>
-            <a href="/allchef" className="item ">
+            <a href="/rolesManagement" className="item ">
                 <BiHome className='logo-icon'/>
                 Roles & Permissions
             </a>
@@ -39,7 +39,7 @@ const Sidebar = () => {
                 <BiHome className='logo-icon'/>
                 Supplier Management
             </a>
-            <a href="/" className="item ">
+            <a href="/allorder" className="item ">
                 <BiHome className='logo-icon'/>
                 Order Management
             </a>
@@ -60,7 +60,7 @@ const Sidebar = () => {
 
 
 
-            <a href="/" className="item active">
+            <a href="/" className="item">
                 <BiHome className='logo-icon'/>
                 Home
             </a>
