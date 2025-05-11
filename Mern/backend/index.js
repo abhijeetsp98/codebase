@@ -11,6 +11,7 @@ import taskRoutes from './routes/taskRoutes.js';
 import userRoutes from './routes/userRoute.js';
 import labourRoute  from './routes/labourRoutes.js';
 import inventoryRoute from './routes/inventoryRoutes.js'
+import tableRoute from './routes/tableRoutes.js'
 
 dotenv.config();
 connectDB();
@@ -25,6 +26,7 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
 app.use("/api/labour", labourRoute);
 app.use("/api/inventory", inventoryRoute);
+app.use("/api/table", tableRoute);
 
 // 🟢 Start the server
 const PORT = process.env.PORT || 7000;

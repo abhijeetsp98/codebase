@@ -17,11 +17,11 @@ const Restaurant = () => {
   );
 
   const handleCardClick = (tableNumber) => {
-    navigate('/addtask');
+    navigate(`/table/${tableNumber}`); // Redirect to dynamic route with table number
   };
 
   const handleReportClick = () => {
-    navigate('/alltask'); // change this path to your actual target
+    navigate('/alltask'); // Change this to your report page
   };
 
   const updateStatus = (index, newStatus) => {

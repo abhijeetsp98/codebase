@@ -10,6 +10,7 @@ const AddTask = () => {
   const [formData, setFormData] = useState({
     dishId: "",
     assignedTo: "",
+    tableNo: "", // New field
     notes: "",
     scheduledAt: "",
     priority: "medium",
@@ -50,6 +51,7 @@ const AddTask = () => {
       setFormData({
         dishId: "",
         assignedTo: "",
+        tableNo: "", // Reset field
         notes: "",
         scheduledAt: "",
         priority: "medium",
@@ -102,6 +104,19 @@ const AddTask = () => {
                     <option key={chef._id} value={chef._id}>{chef.name}</option>
                   ))}
                 </select>
+              </div>
+
+              <div className="col-md-6">
+                <label className="form-label">Table Number</label>
+                <input
+                  type="text"
+                  name="tableNo"
+                  className="form-control"
+                  placeholder="Enter table number"
+                  value={formData.tableNo}
+                  onChange={handleChange}
+                  required
+                />
               </div>
 
               <div className="col-md-12">

@@ -15,6 +15,7 @@ import LabourList from './Labour/LabourList';
 import RolesManagement from './User/RolesManagement';
 import InventoryList from './Inventory/InventoryList';
 import Restaurant from './Task/Restaurants';
+import TablePage from './Task/TablePage';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -54,6 +55,11 @@ function App() {
     {
       path : '/inventoryManagement',
       element: <InventoryList/>
+    },
+    //table
+    {
+      path : '/table/:id',
+      element: <TablePage/>
     },
     //cred
     {

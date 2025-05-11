@@ -2,10 +2,11 @@ import Task from '../model/Task.js';
 
 export const createTask = async (req, res) => {
   console.log("API : TASK, CALL : createTask")
-  const { dishId, assignedTo, status, notes, scheduledAt, priority } = req.body;
+  const { dishId, tableNo, assignedTo, status, notes, scheduledAt, priority } = req.body;
   try {
     const task = new Task({
       dishId,
+      tableNo,
       assignedTo,
       assignedBy: req.user._id,
       status,

@@ -17,6 +17,10 @@ const taskSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    tableNo: {
+      type: String,
+      required: true,
+    },
     status: {
       type: String,
       enum: ["assigned", "in-progress", "completed"],
