@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const predefinedItems = [
@@ -13,6 +13,7 @@ const predefinedItems = [
 
 const TablePage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [orderItems, setOrderItems] = useState([]);
   const [mobile, setMobile] = useState('');
 
@@ -26,7 +27,7 @@ const TablePage = () => {
           }
         });
 
-        const tables = response.data; // assuming array of tables
+        const tables = response.data;
         const thisTable = tables.find(t => t.table_number === parseInt(id));
         if (thisTable && thisTable.orders) {
           setOrderItems(thisTable.orders);
@@ -79,6 +80,24 @@ const TablePage = () => {
     } catch (err) {
       console.error('Failed to save order:', err);
       alert('Failed to save order. Please try again.');
+    }
+  };
+
+  const handleFinalCheckout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:8000/api/table/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+
+      alert(`Table ${id} checked out successfully!`);
+      setOrderItems([]);
+      navigate('/alltask'); // or /restaurant or home if you prefer
+    } catch (err) {
+      console.error("Error during final checkout:", err);
+      alert("Checkout failed. Try again.");
     }
   };
 
@@ -146,6 +165,10 @@ const TablePage = () => {
 
               <button className="btn btn-success w-100 mt-2" onClick={handleCheckout}>
                 🖨️ Print Bill
+              </button>
+
+              <button className="btn btn-danger w-100 mt-2" onClick={handleFinalCheckout}>
+                ✅ Checkout & Clear Table
               </button>
             </div>
           </div>

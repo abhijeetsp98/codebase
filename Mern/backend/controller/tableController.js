@@ -143,3 +143,33 @@ export const checkoutTable = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+// @desc    Delete table and associated orders
+// @route   DELETE /table/:id
+// @access  Private
+export const deleteTableData = async (req, res) => {
+  const tableNumber = parseInt(req.params.id);
+
+  try {
+    const table = await Table.findOne({ table_number: tableNumber });
+
+    if (!table) {
+      return res.status(404).json({ message: 'Table not found' });
+    }
+
+    // Delete related orders (if using an Order model and they're stored separately)
+    await Promise.all(
+      table.orders.map(async (orderId) => {
+        await Task.findByIdAndDelete(orderId); // Adjust to your actual order model (you may have meant 'Order' instead of 'Task')
+      })
+    );
+
+    // Delete the table entry itself
+    await Table.deleteOne({ table_number: tableNumber });
+
+    res.status(200).json({ message: `Table ${tableNumber} and its orders deleted successfully.` });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
