@@ -76,7 +76,7 @@ const TablePage = () => {
       });
 
       alert('Order saved & bill printed successfully!');
-      setOrderItems([]);
+      // Do not clear orderItems here so it remains visible for printing
     } catch (err) {
       console.error('Failed to save order:', err);
       alert('Failed to save order. Please try again.');
@@ -94,7 +94,7 @@ const TablePage = () => {
 
       alert(`Table ${id} checked out successfully!`);
       setOrderItems([]);
-      navigate('/alltask'); // or /restaurant or home if you prefer
+      navigate('/alltask');
     } catch (err) {
       console.error("Error during final checkout:", err);
       alert("Checkout failed. Try again.");
@@ -163,11 +163,19 @@ const TablePage = () => {
               <p><strong>Tax (30%):</strong> ₹{tax}</p>
               <h5><strong>Net Amount:</strong> ₹{netAmount}</h5>
 
-              <button className="btn btn-success w-100 mt-2" onClick={handleCheckout}>
-                🖨️ Print Bill
+              <button
+                className="btn btn-success w-100 mt-2"
+                onClick={handleCheckout}
+                disabled={orderItems.length === 0}
+              >
+              ➕ Add the order 
               </button>
 
-              <button className="btn btn-danger w-100 mt-2" onClick={handleFinalCheckout}>
+              <button
+                className="btn btn-danger w-100 mt-2"
+                onClick={handleFinalCheckout}
+                disabled={orderItems.length === 0}
+              >
                 ✅ Checkout & Clear Table
               </button>
             </div>
