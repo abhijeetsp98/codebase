@@ -1,27 +1,57 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import ContentHeader from '../components/ContentHeader';
 import '../styles/content.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const statusColors = {
   vacant: 'border-success text-success bg-light',   // Green
-  occupied: 'border-warning text-warning bg-light', // Orange
-  reserved: 'border-danger text-danger bg-light',   // Red
+  occupied: 'border-warning text-warning bg-light', // Yellow
 };
 
 const Restaurant = () => {
   const navigate = useNavigate();
-  const [tableStatuses, setTableStatuses] = useState(
-    Array(12).fill('vacant') // all tables start as vacant
-  );
+  const [tableStatuses, setTableStatuses] = useState(Array(12).fill('vacant')); // default green
+
+  useEffect(() => {
+    const fetchTableStatuses = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get('http://localhost:8000/api/table/tableStatus', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const tableData = response.data; // this is an array of table objects
+
+        // Get table numbers that are present in the response
+        const activeTableNumbers = tableData.map(t => t.table_number);
+
+        const updatedStatuses = Array(12).fill('vacant'); // default all to vacant (green)
+
+        activeTableNumbers.forEach((tableNumber) => {
+          if (tableNumber >= 1 && tableNumber <= 12) {
+            updatedStatuses[tableNumber - 1] = 'occupied'; // mark as occupied (yellow)
+          }
+        });
+
+        setTableStatuses(updatedStatuses);
+      } catch (error) {
+        console.error('Failed to fetch table statuses:', error);
+      }
+    };
+
+    fetchTableStatuses();
+  }, []);
 
   const handleCardClick = (tableNumber) => {
-    navigate(`/table/${tableNumber}`); // Redirect to dynamic route with table number
+    navigate(`/table/${tableNumber}`);
   };
 
   const handleReportClick = () => {
-    navigate('/alltask'); // Change this to your report page
+    navigate('/alltask');
   };
 
   const updateStatus = (index, newStatus) => {
@@ -70,12 +100,6 @@ const Restaurant = () => {
                   onClick={() => updateStatus(index, 'occupied')}
                 >
                   Occupied
-                </button>
-                <button
-                  className="btn btn-sm btn-outline-danger"
-                  onClick={() => updateStatus(index, 'reserved')}
-                >
-                  Reserved
                 </button>
               </div>
             </div>

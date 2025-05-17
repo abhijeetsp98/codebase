@@ -1,120 +1,156 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
+const predefinedItems = [
+  { name: 'Pepsi', price: 50 },
+  { name: 'Chicken Platter (14 Pcs)', price: 150 },
+  { name: 'Paneer Pataka Tikka', price: 130 },
+  { name: 'Chicken Lollypop', price: 120 },
+  { name: 'Chicken Biryani', price: 140 },
+  { name: 'Chicken Tikka (8 Pcs)', price: 160 },
+];
+
 const TablePage = () => {
   const { id } = useParams();
-  const [tableData, setTableData] = useState(null);
-  const [newItem, setNewItem] = useState({ name: '', price: 0 });
-  const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState('');
+  const [orderItems, setOrderItems] = useState([]);
+  const [mobile, setMobile] = useState('');
 
-  const fetchTableData = async () => {
-    try {
-      const res = await axios.get(`/api/table/${id}`);
-      setTableData(res.data);
-      setMessage(res.data.message);
-    } catch (err) {
-      console.error(err);
-      setMessage('Error fetching table data.');
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    const fetchTableStatus = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get('http://localhost:8000/api/table/tableStatus', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        });
+
+        const tables = response.data; // assuming array of tables
+        const thisTable = tables.find(t => t.table_number === parseInt(id));
+        if (thisTable && thisTable.orders) {
+          setOrderItems(thisTable.orders);
+        }
+      } catch (err) {
+        console.error("Error fetching table status:", err);
+      }
+    };
+
+    fetchTableStatus();
+  }, [id]);
+
+  const handleAddItem = (item) => {
+    const existingIndex = orderItems.findIndex((i) => i.name === item.name);
+
+    let updatedOrder;
+    if (existingIndex !== -1) {
+      updatedOrder = [...orderItems];
+      updatedOrder[existingIndex].quantity += 1;
+    } else {
+      updatedOrder = [...orderItems, { ...item, quantity: 1 }];
     }
+
+    setOrderItems(updatedOrder);
   };
 
-  const handleStartOrder = async () => {
-    try {
-      await axios.post(`/api/table/${id}/order`, {
-        items: [], // Start with empty item list
-      });
-      fetchTableData(); // Refresh data
-    } catch (err) {
-      console.error(err);
-      setMessage('Failed to start order.');
-    }
+  const calculateTotal = () => {
+    return orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   };
 
-  const handleAddItem = async () => {
-    if (!newItem.name || !newItem.price) return;
-
-    try {
-      await axios.post(`/api/table/${id}/order`, {
-        items: [newItem]
-      });
-      setNewItem({ name: '', price: 0 });
-      fetchTableData(); // Refresh data
-    } catch (err) {
-      console.error(err);
-      setMessage('Failed to add item.');
-    }
-  };
+  const tax = +(calculateTotal() * 0.3).toFixed(2);
+  const netAmount = calculateTotal() + tax;
 
   const handleCheckout = async () => {
     try {
-      await axios.post(`/api/table/${id}/checkout`);
-      fetchTableData(); // Refresh data
+      const token = localStorage.getItem("token");
+      await axios.post(`http://localhost:8000/api/table/${id}/addOrder`, {
+        items: orderItems,
+        total: calculateTotal(),
+        tax,
+        netAmount,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+
+      alert('Order saved & bill printed successfully!');
+      setOrderItems([]);
     } catch (err) {
-      console.error(err);
-      setMessage('Checkout failed.');
+      console.error('Failed to save order:', err);
+      alert('Failed to save order. Please try again.');
     }
   };
 
-  useEffect(() => {
-    fetchTableData();
-  }, [id]);
-
-  if (loading) return <div>Loading...</div>;
-
   return (
-    <div className="container mt-4">
-      <h2>Table {tableData?.table_number}</h2>
-      <p className="text-muted">{message}</p>
-
-      {tableData?.order ? (
-        <>
-          <h4>Current Order</h4>
-          <ul className="list-group mb-3">
-            {tableData.order.items.map((item, idx) => (
-              <li key={idx} className="list-group-item d-flex justify-content-between">
-                <span>{item.name}</span>
-                <span>₹{item.price}</span>
-              </li>
+    <div className="container-fluid mt-3">
+      <div className="row">
+        {/* Left Side: Menu */}
+        <div className="col-md-7">
+          <h4>KOT - Table {id}</h4>
+          <div className="row row-cols-3 g-2">
+            {predefinedItems.map((item, idx) => (
+              <button
+                key={idx}
+                className="btn btn-outline-primary"
+                onClick={() => handleAddItem(item)}
+              >
+                {item.name}
+              </button>
             ))}
-          </ul>
-
-          <h5>Add New Item</h5>
-          <div className="input-group mb-2">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Item Name"
-              value={newItem.name}
-              onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-            />
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Price"
-              value={newItem.price}
-              onChange={(e) => setNewItem({ ...newItem, price: parseFloat(e.target.value) || 0 })}
-            />
-            <button className="btn btn-success" onClick={handleAddItem}>
-              Add
-            </button>
           </div>
-
-          <button className="btn btn-danger" onClick={handleCheckout}>
-            Checkout
-          </button>
-        </>
-      ) : (
-        <div>
-          <p>No active order. Click below to start a new order.</p>
-          <button className="btn btn-primary" onClick={handleStartOrder}>
-            Start Order
-          </button>
         </div>
-      )}
+
+        {/* Right Side: Order Summary */}
+        <div className="col-md-5">
+          <div className="card">
+            <div className="card-header">Order Summary</div>
+            <div className="card-body">
+              <table className="table table-bordered table-sm">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Qty</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orderItems.map((item, idx) => (
+                    <tr key={idx}>
+                      <td>{idx + 1}</td>
+                      <td>{item.name}</td>
+                      <td>{item.quantity}</td>
+                      <td>₹{item.price}</td>
+                      <td>₹{item.price * item.quantity}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <div className="input-group my-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Mobile Number/Name"
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value)}
+                />
+                <button className="btn btn-outline-secondary">🔍</button>
+              </div>
+
+              <p><strong>Total:</strong> ₹{calculateTotal()}</p>
+              <p><strong>Tax (30%):</strong> ₹{tax}</p>
+              <h5><strong>Net Amount:</strong> ₹{netAmount}</h5>
+
+              <button className="btn btn-success w-100 mt-2" onClick={handleCheckout}>
+                🖨️ Print Bill
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
