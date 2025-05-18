@@ -108,15 +108,15 @@ const InventoryList = () => {
   }, []);
 
   const renderSwitchButtons = () => (
-    <div className="mb-3 text-end">
+    <div className="mb-3 text-start">
       <button
-        className={`btn me-2 ${activePage === "inventory" ? "btn-primary" : "btn-outline-primary"}`}
+        className={`btn btn-lg me-2 ${activePage === "inventory" ? "btn-primary" : "btn-outline-primary"}`}
         onClick={() => setActivePage("inventory")}
       >
         Restaurant Inventory
       </button>
       <button
-        className={`btn ${activePage === "bar" ? "btn-primary" : "btn-outline-primary"}`}
+        className={`btn btn-lg ${activePage === "bar" ? "btn-primary" : "btn-outline-primary"}`}
         onClick={() => setActivePage("bar")}
       >
         Bar Inventory
