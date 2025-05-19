@@ -1,76 +1,170 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import DishCard from "./DishCard";
-import ContentHeader from "../components/ContentHeader";
 
 const AllDishList = () => {
   const [dishes, setDishes] = useState([]);
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    ingredients: "",
+    image: "",
+  });
+  const [message, setMessage] = useState("");
+
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const fetchDishes = async () => {
-      try {
-        const token = localStorage.getItem("token"); // Assumes the token is saved in localStorage after login
-
-        // Check if token is available
-        if (!token) {
-          console.log("No token found");
-          return;
-        }
-
-        // Send the token in the Authorization header
-        const res = await axios.get("http://localhost:8000/api/dish", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setDishes(res.data);
-      } catch (err) {
-        console.error("Failed to fetch dishes:", err);
-      }
-    };
-
     fetchDishes();
   }, []);
 
-  return (
-    <div style={{ padding: "20px" }}>
-      <ContentHeader />
-      <DishCard/>
+  const fetchDishes = async () => {
+    try {
+      if (!token) {
+        console.log("No token found");
+        return;
+      }
 
-      <h2>All Dishes</h2>
+      const res = await axios.get("http://localhost:8000/api/dish", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setDishes(res.data);
+    } catch (err) {
+      console.error("Failed to fetch dishes:", err);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage("");
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/dish",
+        {
+          ...formData,
+          ingredients: formData.ingredients.split(",").map((item) => item.trim()),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setMessage("Dish added successfully!");
+      setFormData({ name: "", description: "", ingredients: "", image: "" });
+      fetchDishes(); // refresh list
+    } catch (err) {
+      setMessage(err.response?.data?.message || "Failed to add dish");
+    }
+  };
+
+  return (
+    <div className="container mt-5">
+      <div className="card p-4 shadow-sm mb-4">
+    <h3 className="text-center mb-4">Add Dish</h3>
+    <form onSubmit={handleSubmit}>
+      <div className="row mb-3">
+        <div className="col-md-6">
+          <label className="form-label">Name</label>
+          <input
+            type="text"
+            name="name"
+            className="form-control"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Enter dish name"
+            required
+          />
+        </div>
+        <div className="col-md-6">
+          <label className="form-label">Ingredients (comma-separated)</label>
+          <input
+            type="text"
+            name="ingredients"
+            className="form-control"
+            value={formData.ingredients}
+            onChange={handleChange}
+            placeholder="e.g. rice, chicken, spices"
+            required
+          />
+        </div>
+      </div>
+
+      <div className="mb-3">
+        <label className="form-label">Image URL</label>
+        <input
+          type="text"
+          name="image"
+          className="form-control"
+          value={formData.image}
+          onChange={handleChange}
+          placeholder="Enter image URL"
+        />
+      </div>
+
+      <div className="mb-3">
+        <label className="form-label">Description</label>
+        <textarea
+          name="description"
+          className="form-control"
+          value={formData.description}
+          onChange={handleChange}
+          placeholder="Enter description"
+          rows="3"
+          required
+        />
+      </div>
+
+      <div className="d-grid">
+        <button type="submit" className="btn btn-primary">
+          Add Dish
+        </button>
+      </div>
+    </form>
+
+  {message && (
+    <div className={`alert mt-3 ${message.includes("success") ? "alert-success" : "alert-danger"}`}>
+      {message}
+    </div>
+  )}
+</div>
+
+
+      <h3 className="mb-3">All Dishes</h3>
       {dishes.length === 0 ? (
         <p>No dishes available.</p>
       ) : (
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <ul className="list-unstyled">
           {dishes.map((dish) => (
             <li
               key={dish._id}
-              style={{
-                border: "1px solid #ccc",
-                marginBottom: "15px",
-                padding: "10px",
-                borderRadius: "5px",
-              }}
+              className="border rounded p-3 mb-3 shadow-sm"
             >
-              <h3>{dish.name}</h3>
-              <p>
-                <strong>Description:</strong> {dish.description}
-              </p>
-              <p>
-                <strong>Ingredients:</strong> {dish.ingredients?.join(", ")}
-              </p>
+              <h4>{dish.name}</h4>
+              <p><strong>Description:</strong> {dish.description}</p>
+              <p><strong>Ingredients:</strong> {dish.ingredients?.join(", ")}</p>
               {dish.image && (
                 <img
                   src={dish.image}
                   alt={dish.name}
-                  style={{ maxWidth: "200px", borderRadius: "5px" }}
+                  className="img-fluid rounded"
+                  style={{ maxWidth: "200px" }}
                 />
               )}
-              <br/>
-              <button type="button" class="btn btn-info">Assign the task</button>
-              <br></br>
-              <button type="button" class="btn btn-success">Mark task as complete</button>
+              <div className="mt-3">
+                <button type="button" className="btn btn-info me-2">Assign the task</button>
+                <button type="button" className="btn btn-success">Mark task as complete</button>
+              </div>
             </li>
           ))}
         </ul>

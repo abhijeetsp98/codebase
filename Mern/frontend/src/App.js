@@ -6,7 +6,6 @@ import CompletedTask from './Task/CompletedTask';
 import Sidebar from './components/Sidebar';
 import Register from './components/Register';
 import Login from './components/Login';
-import AddDish from './Dish/AddDish';
 import DishList from './Dish/DishList';
 import ChefList from './Chef/ChefList';
 import TaskList from './Task/TaskList';
@@ -76,21 +75,13 @@ function App() {
     },
     // Dish
     {
-      path : '/alldish',
+      path : '/dishManagement',
       element: <DishList/>
-    },
-    {
-      path: '/adddish',
-      element: <AddDish />,
     },
     // Chef
     {
       path : '/allchef',
       element: <ChefList/>
-    },
-    {
-      path: '/adddish',
-      element: <AddDish />,
     },
     // Task
     {

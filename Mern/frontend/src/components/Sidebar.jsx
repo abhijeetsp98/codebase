@@ -39,7 +39,7 @@ const Sidebar = () => {
                 <BiHome className='logo-icon'/>
                 Supplier Management
             </a>
-            <a href="/" className="item ">
+            <a href="/dishManagement" className="item ">
                 <BiHome className='logo-icon'/>
                 Dish Management
             </a>
