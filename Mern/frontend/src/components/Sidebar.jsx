@@ -43,7 +43,7 @@ const Sidebar = () => {
                 <BiHome className='logo-icon'/>
                 Dish Management
             </a>
-            <a href="/alltask" className="item ">
+            <a href="/restaurants" className="item ">
                 <BiHome className='logo-icon'/>
                 Order Management
             </a>
