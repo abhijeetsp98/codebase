@@ -9,6 +9,7 @@ const AllDishList = () => {
     description: "",
     ingredients: "",
     image: "",
+    price: "",
   });
   const [message, setMessage] = useState("");
 
@@ -56,6 +57,7 @@ const AllDishList = () => {
           ingredients: formData.ingredients
             .split(",")
             .map((item) => item.trim()),
+          price: parseFloat(formData.price),
         },
         {
           headers: {
@@ -70,8 +72,9 @@ const AllDishList = () => {
         description: "",
         ingredients: "",
         image: "",
+        price: "",
       });
-      fetchDishes(); // refresh list
+      fetchDishes();
     } catch (err) {
       setMessage(err.response?.data?.message || "Failed to add dish");
     }
@@ -141,7 +144,7 @@ const AllDishList = () => {
             />
           </div>
 
-          {/* Row 4: Image */}
+          {/* Row 4: Image URL */}
           <div className="mb-3">
             <label className="form-label">Image URL</label>
             <input
@@ -154,7 +157,23 @@ const AllDishList = () => {
             />
           </div>
 
-          {/* Submit */}
+          {/* Row 5: Price */}
+          <div className="mb-3">
+            <label className="form-label">Price (in $)</label>
+            <input
+              type="number"
+              name="price"
+              className="form-control"
+              value={formData.price}
+              onChange={handleChange}
+              placeholder="Enter price"
+              required
+              min="0"
+              step="0.01"
+            />
+          </div>
+
+          {/* Submit Button */}
           <div className="d-grid">
             <button type="submit" className="btn btn-primary">
               Add Dish
@@ -181,15 +200,10 @@ const AllDishList = () => {
           {dishes.map((dish) => (
             <li key={dish._id} className="border rounded p-3 mb-3 shadow-sm">
               <h4>{dish.name}</h4>
-              <p>
-                <strong>Category:</strong> {dish.category}
-              </p>
-              <p>
-                <strong>Description:</strong> {dish.description}
-              </p>
-              <p>
-                <strong>Ingredients:</strong> {dish.ingredients?.join(", ")}
-              </p>
+              <p><strong>Category:</strong> {dish.category}</p>
+              <p><strong>Description:</strong> {dish.description}</p>
+              <p><strong>Ingredients:</strong> {dish.ingredients?.join(", ")}</p>
+              <p><strong>Price:</strong> ${dish.price?.toFixed(2)}</p>
               {dish.image && (
                 <img
                   src={dish.image}

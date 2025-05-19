@@ -11,6 +11,11 @@ const dishSchema = new mongoose.Schema(
     description: String,
     ingredients: [String],
     image: String,
+    price: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
   },
   { timestamps: true }

@@ -2,19 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const predefinedItems = [
-  { name: 'Pepsi', price: 50 },
-  { name: 'Chicken Platter (14 Pcs)', price: 150 },
-  { name: 'Paneer Pataka Tikka', price: 130 },
-  { name: 'Chicken Lollypop', price: 120 },
-  { name: 'Chicken Biryani', price: 140 },
-  { name: 'Chicken Tikka (8 Pcs)', price: 160 },
-];
-
 const TablePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [orderItems, setOrderItems] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
   const [mobile, setMobile] = useState('');
 
   useEffect(() => {
@@ -37,7 +29,27 @@ const TablePage = () => {
       }
     };
 
+    const fetchMenuItems = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://localhost:8000/api/dish", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const dishes = response.data.map(dish => ({
+          name: dish.name,
+          price: dish.price,
+          category: dish.category?.toLowerCase() || 'uncategorized'
+        }));
+        setMenuItems(dishes);
+      } catch (err) {
+        console.error("Failed to fetch menu items:", err);
+      }
+    };
+
     fetchTableStatus();
+    fetchMenuItems();
   }, [id]);
 
   const handleAddItem = (item) => {
@@ -76,7 +88,6 @@ const TablePage = () => {
       });
 
       alert('Order saved & bill printed successfully!');
-      // Do not clear orderItems here so it remains visible for printing
     } catch (err) {
       console.error('Failed to save order:', err);
       alert('Failed to save order. Please try again.');
@@ -101,23 +112,36 @@ const TablePage = () => {
     }
   };
 
+  const renderCategory = (title, category, btnClass = "btn-outline-primary") => (
+    <>
+      <h5 className="mt-3">{title}</h5>
+      <div className="row row-cols-3 g-2">
+        {menuItems
+          .filter(item => item.category === category)
+          .map((item, idx) => (
+            <button
+              key={`${category}-${idx}`}
+              className={`btn ${btnClass}`}
+              onClick={() => handleAddItem(item)}
+            >
+              {item.name}
+            </button>
+          ))}
+      </div>
+      <hr />
+    </>
+  );
+
   return (
     <div className="container-fluid mt-3">
       <div className="row">
         {/* Left Side: Menu */}
         <div className="col-md-7">
           <h4>KOT - Table {id}</h4>
-          <div className="row row-cols-3 g-2">
-            {predefinedItems.map((item, idx) => (
-              <button
-                key={idx}
-                className="btn btn-outline-primary"
-                onClick={() => handleAddItem(item)}
-              >
-                {item.name}
-              </button>
-            ))}
-          </div>
+
+          {renderCategory("Starters", "starter", "btn-outline-primary")}
+          {renderCategory("Main Course", "main course", "btn-outline-success")}
+          {renderCategory("Desserts", "dessert", "btn-outline-warning")}
         </div>
 
         {/* Right Side: Order Summary */}
@@ -141,8 +165,8 @@ const TablePage = () => {
                       <td>{idx + 1}</td>
                       <td>{item.name}</td>
                       <td>{item.quantity}</td>
-                      <td>₹{item.price}</td>
-                      <td>₹{item.price * item.quantity}</td>
+                      <td>${item.price}</td>
+                      <td>${item.price * item.quantity}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -159,16 +183,16 @@ const TablePage = () => {
                 <button className="btn btn-outline-secondary">🔍</button>
               </div>
 
-              <p><strong>Total:</strong> ₹{calculateTotal()}</p>
-              <p><strong>Tax (30%):</strong> ₹{tax}</p>
-              <h5><strong>Net Amount:</strong> ₹{netAmount}</h5>
+              <p><strong>Total:</strong> ${calculateTotal()}</p>
+              <p><strong>Tax (30%):</strong> ${tax}</p>
+              <h5><strong>Net Amount:</strong> ${netAmount}</h5>
 
               <button
                 className="btn btn-success w-100 mt-2"
                 onClick={handleCheckout}
                 disabled={orderItems.length === 0}
               >
-              ➕ Add the order 
+                ➕ Add the order 
               </button>
 
               <button

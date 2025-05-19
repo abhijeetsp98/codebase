@@ -3,15 +3,18 @@ import Dish from "../model/Dish.js";
 export const createDish = async (req, res) => {
   console.log("API : DISH, CALL : CreateDish");
   try {
-    const { name, description, ingredients, image, category } = req.body;
+    const { name, description, ingredients, image, category, price } = req.body;
+
     const dish = await Dish.create({
       name,
       description,
       ingredients,
       image,
       category,
-      createdBy: req.user._id, 
+      price,
+      createdBy: req.user._id,
     });
+
     res.status(201).json(dish);
   } catch (err) {
     res.status(500).json({ message: "Failed to create dish", error: err.message });
