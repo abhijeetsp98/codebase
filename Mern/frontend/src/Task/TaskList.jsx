@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ContentHeader from "../components/ContentHeader";
 import TaskCard from "./TaskCard";
 import { FaEdit } from "react-icons/fa";
 
@@ -38,7 +37,6 @@ const TaskList = () => {
 
   return (
     <div className="container py-4">
-      <ContentHeader />
       <TaskCard />
 
       <h2 className="mb-3">Task List</h2>

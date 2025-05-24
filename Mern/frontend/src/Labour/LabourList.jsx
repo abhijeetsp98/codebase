@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import ContentHeader from "../components/ContentHeader";
 import { FaEdit } from "react-icons/fa";
 
 const LabourList = () => {
@@ -67,7 +66,6 @@ const LabourList = () => {
 
   return (
     <div className="container py-4">
-      <ContentHeader />
       
       <div className="card my-4">
         <div className="card-header bg-primary text-white">

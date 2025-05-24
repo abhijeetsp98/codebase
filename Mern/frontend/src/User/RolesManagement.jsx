@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaEdit } from "react-icons/fa";
-import DishCard from "./UserCard";
-import ContentHeader from "../components/ContentHeader";
 
 const RolesManagement = () => {
   const [users, setUsers] = useState([]);

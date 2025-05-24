@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DishCard from "./DishCard";
-import ContentHeader from "../Task/components/ContentHeader";
 
 const DishList = () => {
   const [dishes, setDishes] = useState([]);
@@ -35,7 +34,6 @@ const DishList = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <ContentHeader />
       <DishCard/>
 
       <h2>All Dishes</h2>

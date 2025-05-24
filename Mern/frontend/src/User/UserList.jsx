@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DishCard from "./UserCard";
-import ContentHeader from "../components/ContentHeader";
 
 const UserList = () => {
   const [dishes, setDishes] = useState([]);
@@ -35,7 +34,6 @@ const UserList = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <ContentHeader />
       <DishCard/>
 
       <h2>All Users</h2>

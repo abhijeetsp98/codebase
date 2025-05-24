@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import ContentHeader from '../components/ContentHeader';
 import '../styles/content.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -62,7 +61,6 @@ const Restaurant = () => {
 
   return (
     <div className="container py-4">
-      <ContentHeader />
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="mb-0">Select a Table</h2>
         <button className="btn btn-primary" onClick={handleReportClick}>

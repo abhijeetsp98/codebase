@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ChefCard from '../Chef/ChefCard';
-import ContentHeader from './ContentHeader';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -36,7 +35,6 @@ const Register = () => {
 
   return (
     <div style={{ marginTop: "80px", textAlign: "center" }}>
-      <ContentHeader/>
       <ChefCard/>
       <h2>Register Chef</h2>
       <form onSubmit={handleSubmit} style={{ display: "inline-block", textAlign: "left" }}>
