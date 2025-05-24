@@ -104,7 +104,7 @@ function App() {
 
   return (
     <div className="App">
-      <Sidebar />
+      <Sidebar userName={userName} isAuthenticated={isAuthenticated} onLogout={handleLogout}/>
       <div className="dashboard--content">
         <RouterProvider router={route} />
       </div>

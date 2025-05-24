@@ -1,96 +1,63 @@
-import React from 'react'
+import React, { useState } from 'react';
 import {
-    BiBookAlt,
-    BiHome,
-    BiMessage,
-    BiSolidReport,
-    BiHelpCircle,
-    BiStats,
-    BiTask
+  BiHome, BiTask, BiMessage, BiBell, BiMoon, BiSun,
+  BiUser, BiCog, BiLogOut
 } from 'react-icons/bi';
-import "../styles/sidebar.css"
+import '../styles/sidebar.css';
 
-const Sidebar = () => {
+const menuItems = [
+  { name: 'Dashboard Overview', icon: <BiHome />, path: '/userManagement' },
+  { name: 'Labour Management', icon: <BiTask />, path: '/userManagement', badge: 32 },
+  { name: 'Admin Roles & Permissions', icon: <BiUser />, path: '/rolesManagement', badge: 32 },
+  { name: 'Inventory Management', icon: <BiTask />, path: '/inventoryManagement', badge: 32 },
+  { name: 'Supplier Management', icon: <BiTask />, path: '/', badge: 32 },
+  { name: 'Dish Management', icon: <BiTask />, path: '/dishManagement' },
+  { name: 'Order Management', icon: <BiTask />, path: '/restaurants' },
+  { name: 'Reports & Analytics', icon: <BiTask />, path: '/'},
+  { name: 'Settings', icon: <BiCog />, path: '/' },
+  { name: 'Help & Support', icon: <BiBell />, path: '/' },
+];
+
+const Sidebar = ({ userName, isAuthenticated, onLogout }) => {
+  const [darkMode, setDarkMode] = useState(true);
+
   return (
-    <div className='menu'>
-        <div className='logo'>
-            <BiBookAlt className='logo-icon'/>
-            <h2>Inventory Management</h2>
+    <div className={`sidebar ${darkMode ? 'dark' : 'light'}`}>
+      <div className="top-section">
+        <div className="avatar-section">
+          <img src="https://i.pravatar.cc/100?img=1" alt="avatar" className="avatar" />
+          <div className="user-info">
+            <span className="name">{isAuthenticated ? userName : 'Guest'}</span>
+            <span className="role"> Admin</span>
+          </div>
         </div>
 
-        <div className='menu--list'>
-            <a href="/userManagement" className="item ">
-                <BiHome className='logo-icon'/>
-                Dashboard Overview
-            </a>
-            <a href="/userManagement" className="item ">
-                <BiHome className='logo-icon'/>
-                Labour Management
-            </a>
-            <a href="/rolesManagement" className="item ">
-                <BiHome className='logo-icon'/>
-                Admin Roles & Permissions
-            </a>
-            <a href="/inventoryManagement" className="item ">
-                <BiHome className='logo-icon'/>
-                Inventory Management
-            </a>
-            <a href="/" className="item ">
-                <BiHome className='logo-icon'/>
-                Supplier Management
-            </a>
-            <a href="/dishManagement" className="item ">
-                <BiHome className='logo-icon'/>
-                Dish Management
-            </a>
-            <a href="/restaurants" className="item ">
-                <BiHome className='logo-icon'/>
-                Order Management
-            </a>
-            <a href="/" className="item ">
-                <BiHome className='logo-icon'/>
-                Reports & Analytics
-            </a>
-            <a href="/" className="item ">
-                <BiHome className='logo-icon'/>
-                Settings
-            </a>
-            <a href="/" className="item ">
-                <BiHome className='logo-icon'/>
-                Help & Support
-            </a>
-           
-
-
-
-
-            <a href="/" className="item">
-                <BiHome className='logo-icon'/>
-                Home
-            </a>
-            <a href="/alldish" className="item">
-                <BiTask className='logo-icon'/>
-                Dish
-            </a>
-            <a href="/allchef" className="item">
-                <BiMessage className='logo-icon'/>
-                Chef
-            </a>
-            <a href="/alltask" className="item">
-                <BiStats className='logo-icon'/>
-                Task
-            </a>
-            <a href="/allusers" className="item">
-                <BiSolidReport className='logo-icon'/>
-                Users
-            </a>
-            <a href="#" className="item">
-                <BiHelpCircle className='logo-icon'/>
-                Help
-            </a>
+        <div className="search-box">
+          <input type="text" placeholder="Search" />
         </div>
+      </div>
+
+      <div className="menu">
+        {menuItems.map((item, idx) => (
+          <a href={item.path} className="menu-item" key={idx}>
+            <span className="icon">{item.icon}</span>
+            <span className="label">{item.name}</span>
+            {item.badge && <span className="badge">{item.badge}</span>}
+          </a>
+        ))}
+      </div>
+
+      <div className="bottom-section">
+        <div className="theme-toggle">
+          <button onClick={() => setDarkMode(false)} className={!darkMode ? 'active' : ''}><BiSun /></button>
+          <button onClick={() => setDarkMode(true)} className={darkMode ? 'active' : ''}><BiMoon /></button>
+        </div>
+        <button className="logout-btn">
+          <BiLogOut /> Logout
+        </button>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
