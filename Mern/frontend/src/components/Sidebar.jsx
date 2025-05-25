@@ -19,10 +19,8 @@ const menuItems = [
 ];
 
 const Sidebar = ({ userName, isAuthenticated, onLogout, theme, toggleTheme }) => {
-  const isDark = theme === 'dark';
-
   return (
-    <div className={`sidebar ${isDark ? 'dark' : 'light'}`}>
+    <div className={`sidebar ${theme}`}>
       <div className="top-section">
         <div className="avatar-section">
           <img src="https://i.pravatar.cc/100?img=1" alt="avatar" className="avatar" />
@@ -49,20 +47,8 @@ const Sidebar = ({ userName, isAuthenticated, onLogout, theme, toggleTheme }) =>
 
       <div className="bottom-section">
         <div className="theme-toggle">
-          <button
-            onClick={() => toggleTheme('light')}
-            className={!isDark ? 'active' : ''}
-            title="Light Mode"
-          >
-            <BiSun />
-          </button>
-          <button
-            onClick={() => toggleTheme('dark')}
-            className={isDark ? 'active' : ''}
-            title="Dark Mode"
-          >
-            <BiMoon />
-          </button>
+          <button onClick={() => toggleTheme('light')} className={theme === 'light' ? 'active' : ''}><BiSun /></button>
+          <button onClick={() => toggleTheme('dark')} className={theme === 'dark' ? 'active' : ''}><BiMoon /></button>
         </div>
         <button className="logout-btn" onClick={onLogout}>
           <BiLogOut /> Logout

@@ -19,7 +19,7 @@ import TablePage from './Task/TablePage';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState('');
-  const [theme, setTheme] = useState('dark'); // light | dark
+  const [theme, setTheme] = useState('light');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -30,14 +30,29 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
+    }
+  }, []);
+
+  useEffect(() => {
+    document.body.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = (mode) => {
+    setTheme(mode);
+    localStorage.setItem('theme', mode);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
     setUserName('');
-  };
-
-  const toggleTheme = (mode) => {
-    setTheme(mode); // 'light' or 'dark'
   };
 
   const route = createBrowserRouter([
@@ -58,7 +73,7 @@ function App() {
   ]);
 
   return (
-    <div className={`App ${theme}-theme`}>
+    <div className={`App ${theme}`}>
       <Sidebar
         userName={userName}
         isAuthenticated={isAuthenticated}
