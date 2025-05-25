@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   BiHome, BiTask, BiMessage, BiBell, BiMoon, BiSun,
   BiUser, BiCog, BiLogOut
@@ -6,23 +6,23 @@ import {
 import '../styles/sidebar.css';
 
 const menuItems = [
-  { name: 'Dashboard Overview', icon: <BiHome />, path: '/userManagement' },
+  { name: 'Dashboard Overview', icon: <BiHome />, path: '/restaurants' },
   { name: 'Labour Management', icon: <BiTask />, path: '/userManagement', badge: 32 },
   { name: 'Admin Roles & Permissions', icon: <BiUser />, path: '/rolesManagement', badge: 32 },
   { name: 'Inventory Management', icon: <BiTask />, path: '/inventoryManagement', badge: 32 },
   { name: 'Supplier Management', icon: <BiTask />, path: '/', badge: 32 },
   { name: 'Dish Management', icon: <BiTask />, path: '/dishManagement' },
   { name: 'Order Management', icon: <BiTask />, path: '/restaurants' },
-  { name: 'Reports & Analytics', icon: <BiTask />, path: '/'},
+  { name: 'Reports & Analytics', icon: <BiTask />, path: '/' },
   { name: 'Settings', icon: <BiCog />, path: '/' },
   { name: 'Help & Support', icon: <BiBell />, path: '/' },
 ];
 
-const Sidebar = ({ userName, isAuthenticated, onLogout }) => {
-  const [darkMode, setDarkMode] = useState(true);
+const Sidebar = ({ userName, isAuthenticated, onLogout, theme, toggleTheme }) => {
+  const isDark = theme === 'dark';
 
   return (
-    <div className={`sidebar ${darkMode ? 'dark' : 'light'}`}>
+    <div className={`sidebar ${isDark ? 'dark' : 'light'}`}>
       <div className="top-section">
         <div className="avatar-section">
           <img src="https://i.pravatar.cc/100?img=1" alt="avatar" className="avatar" />
@@ -49,10 +49,22 @@ const Sidebar = ({ userName, isAuthenticated, onLogout }) => {
 
       <div className="bottom-section">
         <div className="theme-toggle">
-          <button onClick={() => setDarkMode(false)} className={!darkMode ? 'active' : ''}><BiSun /></button>
-          <button onClick={() => setDarkMode(true)} className={darkMode ? 'active' : ''}><BiMoon /></button>
+          <button
+            onClick={() => toggleTheme('light')}
+            className={!isDark ? 'active' : ''}
+            title="Light Mode"
+          >
+            <BiSun />
+          </button>
+          <button
+            onClick={() => toggleTheme('dark')}
+            className={isDark ? 'active' : ''}
+            title="Dark Mode"
+          >
+            <BiMoon />
+          </button>
         </div>
-        <button className="logout-btn">
+        <button className="logout-btn" onClick={onLogout}>
           <BiLogOut /> Logout
         </button>
       </div>

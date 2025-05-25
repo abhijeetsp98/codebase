@@ -19,97 +19,57 @@ import TablePage from './Task/TablePage';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState('');
+  const [theme, setTheme] = useState('dark'); // light | dark
 
-  // Check if the user is logged in on page load
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       setIsAuthenticated(true);
-      const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT to get user info
-      setUserName(decodedToken.name); // Assuming the name is part of the JWT payload
+      const decodedToken = JSON.parse(atob(token.split('.')[1]));
+      setUserName(decodedToken.name);
     }
   }, []);
 
-  // Log out the user and clear the token
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
     setUserName('');
   };
 
+  const toggleTheme = (mode) => {
+    setTheme(mode); // 'light' or 'dark'
+  };
+
   const route = createBrowserRouter([
-    {
-      path: '/',
-      element: <TaskList/>,
-    },
-    //labour
-    {
-      path: '/userManagement',
-      element: <LabourList/>,
-    },
-    {
-      path: '/rolesManagement',
-      element: <RolesManagement/>,
-    },
-    {
-      path : '/inventoryManagement',
-      element: <InventoryList/>
-    },
-    //table
-    {
-      path : '/table/:id',
-      element: <TablePage/>
-    },
-    //cred
-    {
-      path: '/login',
-      element: <Login />,
-    },
-    {
-      path: '/register',
-      element: <Register />,
-    },
-    {
-      path: '/allusers',
-      element: <UserList />,
-    },
-    // Dish
-    {
-      path : '/dishManagement',
-      element: <DishList/>
-    },
-    // Chef
-    {
-      path : '/allchef',
-      element: <ChefList/>
-    },
-    // Task
-    {
-      path: '/alltask',
-      element: <TaskList/>,
-    },
-    {
-      path: '/addtask',
-      element: <AddTask />,
-    },
-    {
-      path: '/completedtask',
-      element: <CompletedTask />,
-    },
-    {
-      path: '/restaurants',
-      element: <Restaurant />,
-    }
+    { path: '/', element: <TaskList /> },
+    { path: '/userManagement', element: <LabourList /> },
+    { path: '/rolesManagement', element: <RolesManagement /> },
+    { path: '/inventoryManagement', element: <InventoryList /> },
+    { path: '/table/:id', element: <TablePage /> },
+    { path: '/login', element: <Login /> },
+    { path: '/register', element: <Register /> },
+    { path: '/allusers', element: <UserList /> },
+    { path: '/dishManagement', element: <DishList /> },
+    { path: '/allchef', element: <ChefList /> },
+    { path: '/alltask', element: <TaskList /> },
+    { path: '/addtask', element: <AddTask /> },
+    { path: '/completedtask', element: <CompletedTask /> },
+    { path: '/restaurants', element: <Restaurant /> },
   ]);
 
   return (
-    <div className="App">
-      <Sidebar userName={userName} isAuthenticated={isAuthenticated} onLogout={handleLogout}/>
+    <div className={`App ${theme}-theme`}>
+      <Sidebar
+        userName={userName}
+        isAuthenticated={isAuthenticated}
+        onLogout={handleLogout}
+        theme={theme}
+        toggleTheme={toggleTheme}
+      />
       <div className="dashboard--content">
         <RouterProvider router={route} />
       </div>
 
-      {/* Header - Login/Register or User Profile */}
       <div className="header">
         <div className="header-content">
           {isAuthenticated ? (
@@ -119,12 +79,8 @@ function App() {
             </div>
           ) : (
             <div className="auth-buttons">
-              <button className="login-btn" onClick={() => window.location.href = '/login'}>
-                Login
-              </button>
-              <button className="register-btn" onClick={() => window.location.href = '/register'}>
-                Register
-              </button>
+              <button className="login-btn" onClick={() => window.location.href = '/login'}>Login</button>
+              <button className="register-btn" onClick={() => window.location.href = '/register'}>Register</button>
             </div>
           )}
         </div>

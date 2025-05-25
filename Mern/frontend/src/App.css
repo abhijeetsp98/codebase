@@ -1,18 +1,51 @@
-body {
-  background-color: aliceblue;
+.App {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.App{
-  display: flex;
-  gap: 20px;
+.light-theme {
+  background-color: #f0f0f0;
+  color: #222;
 }
 
-.dashboard--content{
-  background-color: #fff;
-  flex:1;
-  border-radius: 20px;
-  padding: 2rem;
+.dark-theme {
+  background-color: #1e1e1e;
+  color: #eee;
+}
+
+.dashboard--content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 250px;
+  height: 50px;
+  background-color: transparent;
   display: flex;
-  gap: 1.5rem;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 20px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth-buttons button,
+.logout-btn {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
 }
