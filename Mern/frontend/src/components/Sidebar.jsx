@@ -6,6 +6,7 @@ import {
 import '../styles/sidebar.css';
 
 const menuItems = [
+  { name: 'Home', icon: <BiHome />, path: '/' },
   { name: 'Dashboard Overview', icon: <BiHome />, path: '/restaurants' },
   { name: 'Labour Management', icon: <BiTask />, path: '/userManagement', badge: 32 },
   { name: 'Admin Roles & Permissions', icon: <BiUser />, path: '/rolesManagement', badge: 32 },

@@ -1,5 +1,5 @@
 import './App.css';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, Navigate  } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import AddTask from './Task/AddTask';
 import CompletedTask from './Task/CompletedTask';
@@ -15,6 +15,8 @@ import RolesManagement from './User/RolesManagement';
 import InventoryList from './Inventory/InventoryList';
 import Restaurant from './Task/Restaurants';
 import TablePage from './Task/TablePage';
+import Home from './HomePage/Home';
+import IframePage from './HomePage/IframePage';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -56,7 +58,7 @@ function App() {
   };
 
   const route = createBrowserRouter([
-    { path: '/', element: <TaskList /> },
+    { path: '/', element: <IframePage/> },
     { path: '/userManagement', element: <LabourList /> },
     { path: '/rolesManagement', element: <RolesManagement /> },
     { path: '/inventoryManagement', element: <InventoryList /> },
