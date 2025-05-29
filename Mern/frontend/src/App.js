@@ -15,6 +15,7 @@ import RolesManagement from './User/RolesManagement';
 import InventoryList from './Inventory/InventoryList';
 import Restaurant from './Task/Restaurants';
 import TablePage from './Task/TablePage';
+import Report from "./components/Report";
 import Home from './HomePage/Home';
 import IframePage from './HomePage/IframePage';
 
@@ -72,6 +73,7 @@ function App() {
     { path: '/addtask', element: <AddTask /> },
     { path: '/completedtask', element: <CompletedTask /> },
     { path: '/restaurants', element: <Restaurant /> },
+    { path:'/reports', element:<Report/> }
   ]);
 
   return (

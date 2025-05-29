@@ -14,7 +14,7 @@ const menuItems = [
   { name: 'Supplier Management', icon: <BiTask />, path: '/', badge: 32 },
   { name: 'Dish Management', icon: <BiTask />, path: '/dishManagement' },
   { name: 'Order Management', icon: <BiTask />, path: '/restaurants' },
-  { name: 'Reports & Analytics', icon: <BiTask />, path: '/' },
+  { name: 'Reports & Analytics', icon: <BiTask />, path: '/reports' },
   { name: 'Settings', icon: <BiCog />, path: '/' },
   { name: 'Help & Support', icon: <BiBell />, path: '/' },
 ];
