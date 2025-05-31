@@ -21,6 +21,9 @@ import {
   Tooltip as ReTooltip,
   Legend,
   ResponsiveContainer,
+  ScatterChart, // Added for the scatter plot
+  Scatter, // Added for the scatter plot
+  ReferenceDot, // Added for centroids in scatter plot
 } from "recharts";
 
 // Custom restaurant icon
@@ -31,7 +34,7 @@ const restaurantIcon = new L.Icon({
   popupAnchor: [0, -40],
 });
 
-// Sample order points
+// Sample order points (for the map - kept as is)
 const orderPoints = [
   { lat: 51.505, lng: -0.085, dish: "Spaghetti Carbonara" },
   { lat: 51.506, lng: -0.087, dish: "Margherita Pizza" },
@@ -44,14 +47,55 @@ const orderPoints = [
   { lat: 51.506, lng: -0.09, dish: "Tiramisu" },
 ];
 
-// Hardcoded cluster assignments
+// Hardcoded cluster assignments (for the map - kept as is)
 const clusterAssignments = [0, 0, 1, 1, 0, 1, 2, 2, 1];
-const clusterColors = ["#e74c3c", "#3498db", "#2ecc71"];
+const clusterColors = ["#e74c3c", "#3498db", "#2ecc71"]; // Kept for map markers
 const centroids = [
   { lat: 51.5052, lng: -0.086 },
   { lat: 51.5065, lng: -0.088 },
   { lat: 51.5025, lng: -0.0815 },
 ];
+
+// NEW DATA FOR THE SCATTER PLOT (mimicking the image)
+const scatterPoints = [
+  { x: 0.5, y: 1.2, cluster: 0 },
+  { x: 0.2, y: 0.9, cluster: 0 },
+  { x: 4.8, y: 0.7, cluster: 1 },
+  { x: 5.1, y: 1.1, cluster: 1 },
+  { x: 0.7, y: 1.5, cluster: 0 },
+  { x: 4.5, y: 0.4, cluster: 1 },
+  { x: 2.5, y: 5.2, cluster: 2 },
+  { x: 2.8, y: 5.5, cluster: 2 },
+  { x: 4.9, y: 0.9, cluster: 1 },
+  { x: 0.1, y: 1.0, cluster: 0 },
+  { x: 0.6, y: 1.1, cluster: 0 },
+  { x: 5.2, y: 0.6, cluster: 1 },
+  { x: 2.3, y: 5.0, cluster: 2 },
+  { x: 2.7, y: 5.3, cluster: 2 },
+  { x: 0.3, y: 1.3, cluster: 0 },
+  { x: 4.6, y: 0.8, cluster: 1 },
+  { x: 2.9, y: 5.1, cluster: 2 },
+  { x: 0.4, y: 0.8, cluster: 0 },
+  { x: 5.0, y: 1.0, cluster: 1 },
+  { x: 2.6, y: 5.4, cluster: 2 },
+  { x: 0.8, y: 1.0, cluster: 0 },
+  { x: 4.7, y: 0.5, cluster: 1 },
+  { x: 2.4, y: 5.3, cluster: 2 },
+  { x: 0.0, y: 1.1, cluster: 0 },
+  { x: 4.9, y: 0.3, cluster: 1 },
+  { x: 2.7, y: 5.0, cluster: 2 },
+];
+
+// Colors for the scatter plot clusters (matching the image as closely as possible)
+const scatterClusterColors = ["#3498db", "#f39c12", "#2ecc71"]; // Blue, Orange, Green
+
+// NEW CENTROIDS FOR THE SCATTER PLOT
+const scatterCentroids = [
+  { x: 0.4, y: 1.1, cluster: 0 }, // Centroid for blue cluster
+  { x: 4.9, y: 0.75, cluster: 1 }, // Centroid for orange cluster
+  { x: 2.6, y: 5.25, cluster: 2 }, // Centroid for green cluster
+];
+
 
 // Utility to check if point is near
 const isNearby = (lat1, lng1, lat2, lng2, threshold = 0.0015) => {
@@ -60,7 +104,7 @@ const isNearby = (lat1, lng1, lat2, lng2, threshold = 0.0015) => {
   return Math.sqrt(dx * dx + dy * dy) <= threshold;
 };
 
-// Heatmap Layer
+// Heatmap Layer (kept as is)
 const HeatmapLayer = ({ points }) => {
   const map = useMap();
 
@@ -86,7 +130,7 @@ const HeatmapLayer = ({ points }) => {
   return null;
 };
 
-// Tooltip on hover near points
+// Tooltip on hover near points (kept as is)
 const HoverPopup = ({ orderPoints }) => {
   const map = useMap();
   const [hoverInfo, setHoverInfo] = useState(null);
@@ -126,7 +170,7 @@ const HoverPopup = ({ orderPoints }) => {
   );
 };
 
-// KMeans Cluster Visuals
+// KMeans Cluster Visuals (for the map - kept as is)
 const KMeansClusterLayer = () => {
   return (
     <>
@@ -167,7 +211,7 @@ const KMeansClusterLayer = () => {
   );
 };
 
-// Cluster summary data
+// Cluster summary data (used for bar chart - kept as is)
 const getClusterData = (assignments, clusterCount) => {
   const counts = Array(clusterCount).fill(0);
   assignments.forEach((c) => counts[c]++);
@@ -179,10 +223,11 @@ const getClusterData = (assignments, clusterCount) => {
 
 const Report = () => {
   const restaurantLatLng = [51.5055, -0.0865];
-  const clusterData = getClusterData(clusterAssignments, 3);
+  const clusterData = getClusterData(clusterAssignments, 3); // For the bar chart
 
   return (
     <div style={{ padding: "20px" }}>
+      {/* Existing Map Component */}
       <h2 style={{ marginBottom: "10px" }}>
         📍 Order Heatmap Around Bill’s London Bridge
       </h2>
@@ -195,6 +240,7 @@ const Report = () => {
           width: "100%",
           borderRadius: "12px",
           boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          marginBottom: "40px", // Added space below the map
         }}
       >
         <TileLayer
@@ -213,7 +259,63 @@ const Report = () => {
         <KMeansClusterLayer />
       </MapContainer>
 
-      {/* Cluster Summary Graph */}
+      {/* NEW SECTION: Scatter Plot (Ideal Clustering) */}
+      <h2 style={{ marginBottom: "20px", textAlign: "center" }}>
+        Top ordered dishes
+      </h2>
+      <ResponsiveContainer width="100%" height={400}>
+        <ScatterChart
+          margin={{
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20,
+          }}
+        >
+          <CartesianGrid />
+          <XAxis type="number" dataKey="x" name="X" unit="" />
+          <YAxis type="number" dataKey="y" name="Y" unit="" />
+          <ReTooltip cursor={{ strokeDasharray: "3 3" }} />
+          <Legend />
+
+          {/* Render each cluster with its own color */}
+          {scatterClusterColors.map((color, index) => (
+            <Scatter
+              key={`cluster-scatter-${index}`}
+              name={`Dish ${index + 1}`}
+              data={scatterPoints.filter((p) => p.cluster === index)}
+              fill={color}
+              shape="circle" // Small circles for points
+            />
+          ))}
+
+          {/* Render centroids as ReferenceDots */}
+          {scatterCentroids.map((c, index) => (
+            <ReferenceDot
+              key={`centroid-${index}`}
+              x={c.x}
+              y={c.y}
+              r={8} // radius of the centroid dot
+              fill="black" // Centroid color
+              stroke="black"
+              isFront={true} // ensures it's on top of other points
+              // Optional: Add a tooltip for centroids
+              // <ReTooltip content={({ payload }) => {
+              //   if (payload && payload.length) {
+              //     return (
+              //       <div style={{ backgroundColor: '#fff', padding: '5px', border: '1px solid #ccc' }}>
+              //         <p>{`Centroid of Cluster ${c.cluster + 1}`}</p>
+              //       </div>
+              //     );
+              //   }
+              //   return null;
+              // }} />
+            />
+          ))}
+        </ScatterChart>
+      </ResponsiveContainer>
+
+      {/* Cluster Summary Graph (remains the same) */}
       <h3 style={{ marginTop: "30px", marginBottom: "10px" }}>
         📊 Order Distribution by Cluster
       </h3>

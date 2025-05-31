@@ -15,6 +15,7 @@ const menuItems = [
   { name: 'Dish Management', icon: <BiTask />, path: '/dishManagement' },
   { name: 'Order Management', icon: <BiTask />, path: '/restaurants' },
   { name: 'Reports & Analytics', icon: <BiTask />, path: '/reports' },
+  { name: 'Predict Orders', icon: <BiTask />, path: '/predictOrder'},
   { name: 'Settings', icon: <BiCog />, path: '/' },
   { name: 'Help & Support', icon: <BiBell />, path: '/' },
 ];
