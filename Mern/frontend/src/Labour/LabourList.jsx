@@ -6,11 +6,15 @@ import { FaEdit } from "react-icons/fa";
 const LabourList = () => {
   const [labours, setLabours] = useState([]);
   const [formData, setFormData] = useState({
-    name: "",
-    role: "",
-    hourlyRate: "",
-    hoursWorked: "",
-    totalEarning: "",
+    firstName: "",
+    lastName: "",
+    position: "",
+    contact: "",
+    hireDate: "",
+    salaryPerHour: "12",
+    totalHours: "120",
+    hoursWorkedWeek: "",
+    hoursWorkedMonth: "",
   });
 
   const handleChange = (e) => {
@@ -26,16 +30,20 @@ const LabourList = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast.success("Task created successfully");
+      toast.success("Employee added successfully!");
       setFormData({
-        name: "",
-        role: "",
-        hourlyRate: "",
-        hoursWorked: "",
-        totalEarning: "",
+        firstName: "",
+        lastName: "",
+        position: "",
+        contact: "",
+        hireDate: "",
+        salaryPerHour: "12",
+        totalHours: "120",
+        hoursWorkedWeek: "",
+        hoursWorkedMonth: "",
       });
     } catch (error) {
-      toast.error("Task creation failed");
+      toast.error("Failed to add employee.");
     }
   };
 
@@ -43,18 +51,10 @@ const LabourList = () => {
     const fetchLabours = async () => {
       try {
         const token = localStorage.getItem("token");
-
-        if (!token) {
-          console.log("No token found");
-          return;
-        }
-
+        if (!token) return;
         const res = await axios.get("http://localhost:8000/api/labour/alllabour", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
-
         setLabours(res.data);
       } catch (err) {
         console.error("Failed to fetch labours:", err);
@@ -66,120 +66,244 @@ const LabourList = () => {
 
   return (
     <div className="container py-4">
-      
+      <style>{`
+        .card {
+          border-radius: 14px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+          overflow: hidden;
+          background: #ffffff;
+        }
+
+        .card-header {
+          background: linear-gradient(90deg, #0077b6, #00b4d8);
+          color: #fff;
+          font-weight: 600;
+          font-size: 1.2rem;
+          padding: 15px 25px;
+        }
+
+        .card-body {
+          padding: 30px;
+        }
+
+        .form-label {
+          font-weight: 600;
+          color: #333;
+        }
+
+        .form-control,
+        .form-select {
+          border-radius: 8px;
+          padding: 10px 12px;
+        }
+
+        .btn-success {
+          padding: 10px 20px;
+          border-radius: 10px;
+          font-weight: 600;
+          background-color: #06d6a0;
+          border: none;
+        }
+
+        .btn-success:hover {
+          background-color: #05b68f;
+        }
+
+        h2 {
+          font-weight: 700;
+          color: #1d3557;
+        }
+
+        .table {
+          background-color: #fff;
+          border-radius: 10px;
+          overflow: hidden;
+        }
+
+        .table thead th {
+          background-color: #1d3557;
+          color: #fff;
+          font-size: 0.95rem;
+          text-transform: uppercase;
+        }
+
+        .table tbody tr:nth-child(even) {
+          background-color: #f8f9fa;
+        }
+
+        .table td,
+        .table th {
+          vertical-align: middle;
+          text-align: center;
+        }
+
+        .btn-outline-primary {
+          border-radius: 50%;
+          padding: 6px 10px;
+          font-size: 14px;
+        }
+
+        .alert-warning {
+          background: #fff3cd;
+          border: 1px solid #ffeeba;
+          color: #856404;
+          border-radius: 10px;
+          padding: 15px;
+        }
+
+        @media (max-width: 768px) {
+          .card-body {
+            padding: 20px;
+          }
+
+          .table th, .table td {
+            font-size: 13px;
+            padding: 10px;
+          }
+        }
+      `}</style>
+
       <div className="card my-4">
-        <div className="card-header bg-primary text-white">
-          <h5 className="mb-0">Add New Labour</h5>
-        </div>
+        <div className="card-header">Add New Employee</div>
         <div className="card-body">
           <form onSubmit={handleSubmit}>
             <div className="row g-3">
               <div className="col-md-6">
-                <label className="form-label">Name</label>
+                <label className="form-label">First Name</label>
                 <input
                   type="text"
-                  name="name"
+                  name="firstName"
                   className="form-control"
-                  value={formData.name}
+                  value={formData.firstName}
                   onChange={handleChange}
                   required
                 />
               </div>
-
               <div className="col-md-6">
-                <label className="form-label">Role</label>
-                <select
-                  name="role"
-                  className="form-select"
-                  value={formData.role}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select a Role</option>
-                  <option value="Manager">Manager</option>
-                  <option value="Staff">Staff</option>
-                  <option value="Accountant">Accountant</option>
-                </select>
-              </div>
-
-              <div className="col-md-4">
-                <label className="form-label">Hourly Rate ($)</label>
+                <label className="form-label">Last Name</label>
                 <input
-                  type="number"
-                  name="hourlyRate"
+                  type="text"
+                  name="lastName"
                   className="form-control"
-                  value={formData.hourlyRate}
+                  value={formData.lastName}
                   onChange={handleChange}
-                  step="0.01"
-                  min="0"
                   required
                 />
               </div>
-
               <div className="col-md-4">
-                <label className="form-label">Hours Worked</label>
+                <label className="form-label">Position</label>
                 <input
-                  type="number"
-                  name="hoursWorked"
+                  type="text"
+                  name="position"
                   className="form-control"
-                  value={formData.hoursWorked}
+                  value={formData.position}
                   onChange={handleChange}
-                  step="1"
-                  min="0"
                   required
                 />
               </div>
-
               <div className="col-md-4">
-                <label className="form-label">Total Earned ($)</label>
+                <label className="form-label">Contact No.</label>
+                <input
+                  type="text"
+                  name="contact"
+                  className="form-control"
+                  value={formData.contact}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="col-md-4">
+                <label className="form-label">Hire Date</label>
+                <input
+                  type="date"
+                  name="hireDate"
+                  className="form-control"
+                  value={formData.hireDate}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="col-md-4">
+                <label className="form-label">Salary per Hour (£)</label>
                 <input
                   type="number"
-                  name="totalEarning"
+                  name="salaryPerHour"
                   className="form-control"
-                  value={formData.totalEarning}
+                  value={formData.salaryPerHour}
                   onChange={handleChange}
-                  step="1"
-                  min="0"
-                  required
+                  disabled
+                />
+              </div>
+              <div className="col-md-4">
+                <label className="form-label">Total Hours Worked</label>
+                <input
+                  type="number"
+                  name="totalHours"
+                  className="form-control"
+                  value={formData.totalHours}
+                  onChange={handleChange}
+                  disabled
+                />
+              </div>
+              <div className="col-md-2">
+                <label className="form-label">Hours this Week</label>
+                <input
+                  type="number"
+                  name="hoursWorkedWeek"
+                  className="form-control"
+                  value={formData.hoursWorkedWeek}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="col-md-2">
+                <label className="form-label">Hours this Month</label>
+                <input
+                  type="number"
+                  name="hoursWorkedMonth"
+                  className="form-control"
+                  value={formData.hoursWorkedMonth}
+                  onChange={handleChange}
                 />
               </div>
             </div>
 
             <div className="mt-4 text-end">
               <button type="submit" className="btn btn-success">
-                Add Labour
+                Add Employee
               </button>
             </div>
           </form>
         </div>
       </div>
 
-      <h2 className="mb-3">All Labour</h2>
+      <h2 className="mb-3">All Employees</h2>
       {labours.length === 0 ? (
-        <div className="alert alert-warning">No labour available.</div>
+        <div className="alert alert-warning">No employees available.</div>
       ) : (
         <div className="table-responsive">
           <table className="table table-bordered table-striped table-hover">
-            <thead className="table-dark">
+            <thead>
               <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Role</th>
-                <th>Hourly Rate</th>
-                <th>Hours Worked</th>
-                <th>Total Earned</th>
+                <th>Position</th>
+                <th>Contact</th>
+                <th>Hire Date</th>
+                <th>Weekly Hrs</th>
+                <th>Monthly Hrs</th>
                 <th>Edit</th>
               </tr>
             </thead>
             <tbody>
-              {labours.map((labour, index) => (
-                <tr key={labour._id}>
+              {labours.map((emp, index) => (
+                <tr key={emp._id}>
                   <td>{index + 1}</td>
-                  <td>{labour.name}</td>
-                  <td>{labour.role}</td>
-                  <td>${parseFloat(labour.hourlyRate).toFixed(2)}</td>
-                  <td>{labour.hoursWorked}</td>
-                  <td>${parseFloat(labour.totalEarning).toFixed(2)}</td>
+                  <td>{emp.firstName} {emp.lastName}</td>
+                  <td>{emp.position}</td>
+                  <td>{emp.contact}</td>
+                  <td>{emp.hireDate?.slice(0, 10)}</td>
+                  <td>{emp.hoursWorkedWeek}</td>
+                  <td>{emp.hoursWorkedMonth}</td>
                   <td>
                     <button className="btn btn-sm btn-outline-primary">
                       <FaEdit />
