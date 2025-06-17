@@ -1,9 +1,9 @@
 import express from 'express';
-import { createLabour, getLabours } from '../controller/labourController.js';
+import { createEmployee, getEmployee } from '../controller/employeeController.js';
 import { protect } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
-router.post('/addlabour', protect, createLabour);
-router.get('/alllabour', protect, getLabours);
+router.post('/addlabour', protect, createEmployee);
+router.get('/alllabour', protect, getEmployee);
 
 export default router;
