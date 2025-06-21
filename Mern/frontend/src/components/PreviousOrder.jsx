@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const PredictOrder = () => {
+const PreviousOrder = () => {
   const weeklyPredictionData = {
     // (Data remains unchanged)
     "Week 1": [
@@ -159,4 +159,4 @@ const PredictOrder = () => {
   );
 };
 
-export default PredictOrder;
+export default PreviousOrder;

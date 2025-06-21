@@ -80,6 +80,8 @@ const Report = () => {
   const [isEventsExpanded, setIsEventsExpanded] = useState(false)
   const [isLaborExpanded, setIsLaborExpanded] = useState(false)
   const [showWasteDetails, setShowWasteDetails] = useState(false)
+  const [productCount, setProductCount] = useState(0)
+  const [productCategory, setProductCategory] = useState(0)
 
   // Waste tracking data
   const wasteData = [
@@ -317,6 +319,32 @@ const Report = () => {
       } catch (error) {
         console.error("Failed to fetch table statuses:", error)
       }
+
+      try {
+        const token = localStorage.getItem("token")
+        const dishResponse = await axios.get("http://localhost:8000/api/dish", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Use the same token for dish API
+          },
+        });
+
+        // Assuming your API returns an array of dishes, we take its length
+        setProductCount(dishResponse.data.length);
+
+        const dishes = dishResponse.data;
+        const uniqueCategories = new Set(); // Use a Set to store unique categories
+        dishes.forEach(dish => {
+          if (dish.category) { // Ensure the category attribute exists
+            uniqueCategories.add(dish.category);
+          }
+        });
+        setProductCategory(uniqueCategories.size);
+
+        
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+
     }
 
     fetchTableStatuses()
@@ -1122,7 +1150,7 @@ const Report = () => {
           <div className="card-inner1">
             <div>
               <h3>PRODUCTS</h3>
-              <p>300</p>
+              <p>{300+productCount}</p>
               <span className="stat-change positive">
                 <BsArrowUpShort /> 12% from last month
               </span>
@@ -1134,7 +1162,7 @@ const Report = () => {
           <div className="card-inner1">
             <div>
               <h3>CATEGORIES</h3>
-              <p>12</p>
+              <p>{12+productCategory}</p>
               <span className="stat-change positive">
                 <BsArrowUpShort /> 4% from last month
               </span>

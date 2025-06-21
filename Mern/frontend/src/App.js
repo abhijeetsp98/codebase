@@ -18,7 +18,7 @@ import TablePage from './Task/TablePage';
 import Report from "./components/Report";
 import Home from './HomePage/Home';
 import IframePage from './HomePage/IframePage';
-import PredictOrder from './components/PredictOrder';
+import PreviousOrder from './components/PreviousOrder';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -74,8 +74,8 @@ function App() {
     { path: '/addtask', element: <AddTask /> },
     { path: '/completedtask', element: <CompletedTask /> },
     { path: '/restaurants', element: <Restaurant /> },
-    { path:'/reports', element:<Report/> },
-    { path:'/predictOrder', element:<PredictOrder/> },
+    { path: '/reports', element:<Report/> },
+    { path: '/previousOrder', element:<PreviousOrder/> },
   ]);
 
   return (

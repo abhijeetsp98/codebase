@@ -7,15 +7,13 @@ import '../styles/sidebar.css';
 
 const menuItems = [
   { name: 'Home', icon: <BiHome />, path: '/' },
-  { name: 'Dashboard Overview', icon: <BiHome />, path: '/reports' },
+  { name: 'Dashboard', icon: <BiHome />, path: '/reports' },
   { name: 'Labour Management', icon: <BiTask />, path: '/userManagement', badge: 32 },
   { name: 'Admin Roles & Permissions', icon: <BiUser />, path: '/rolesManagement', badge: 32 },
   { name: 'Inventory Management', icon: <BiTask />, path: '/inventoryManagement', badge: 32 },
-  { name: 'Supplier Management', icon: <BiTask />, path: '/', badge: 32 },
   { name: 'Dish Management', icon: <BiTask />, path: '/dishManagement' },
   { name: 'Order Management', icon: <BiTask />, path: '/restaurants' },
-  { name: 'Reports & Analytics', icon: <BiTask />, path: '/reports' },
-  { name: 'Predict Orders', icon: <BiTask />, path: '/predictOrder'},
+  { name: 'Previous Orders', icon: <BiTask />, path: '/previousOrder'},
   { name: 'Settings', icon: <BiCog />, path: '/' },
   { name: 'Help & Support', icon: <BiBell />, path: '/' },
 ];
