@@ -12,6 +12,7 @@ import userRoutes from './routes/userRoute.js';
 import labourRoute  from './routes/labourRoutes.js';
 import inventoryRoute from './routes/inventoryRoutes.js'
 import tableRoute from './routes/tableRoutes.js'
+import chatGPTRoute from './routes/chatGPTRoutes.js'
 
 dotenv.config();
 connectDB();
@@ -27,6 +28,7 @@ app.use('/api/users', userRoutes);
 app.use("/api/labour", labourRoute);
 app.use("/api/inventory", inventoryRoute);
 app.use("/api/table", tableRoute);
+app.use("/api/ai", chatGPTRoute);
 
 // 🟢 Start the server
 const PORT = process.env.PORT || 7000;
