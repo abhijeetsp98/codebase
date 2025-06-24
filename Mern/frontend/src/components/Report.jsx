@@ -83,6 +83,10 @@ const Report = () => {
   const [productCount, setProductCount] = useState(0)
   const [productCategory, setProductCategory] = useState(0)
 
+  const [weatherSalesData, setWeatherSalesData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   // Waste tracking data
   const wasteData = [
     { name: "Food Waste", value: 8.5, color: "#f093fb", percentage: 56.7 },
@@ -187,15 +191,15 @@ const Report = () => {
     { name: "Equipment", value: 100 },
   ]
 
-  const weatherSalesData = [
-    { date: "25/05", temp: 22, sales: 1200, weather: "sunny", forecast: 1350 },
-    { date: "26/05", temp: 18, sales: 980, weather: "rainy", forecast: 1100 },
-    { date: "27/05", temp: 25, sales: 1450, weather: "sunny", forecast: 1500 },
-    { date: "28/05", temp: 15, sales: 850, weather: "cloudy", forecast: 950 },
-    { date: "29/05", temp: 28, sales: 1600, weather: "sunny", forecast: 1650 },
-    { date: "30/05", temp: 12, sales: 750, weather: "rainy", forecast: 800 },
-    { date: "31/05", temp: 20, sales: 1100, weather: "cloudy", forecast: 1200 },
-  ]
+  // const weatherSalesData = [
+  //   { date: "25/05", temp: 22, sales: 1200, weather: "sunny", forecast: 1350 },
+  //   { date: "26/05", temp: 18, sales: 980, weather: "rainy", forecast: 1100 },
+  //   { date: "27/05", temp: 25, sales: 1450, weather: "sunny", forecast: 1500 },
+  //   { date: "28/05", temp: 15, sales: 850, weather: "cloudy", forecast: 950 },
+  //   { date: "29/05", temp: 28, sales: 1600, weather: "sunny", forecast: 1650 },
+  //   { date: "30/05", temp: 12, sales: 750, weather: "rainy", forecast: 800 },
+  //   { date: "31/05", temp: 20, sales: 1100, weather: "cloudy", forecast: 1200 },
+  // ]
 
   const laborPlanningData = [
     { day: "Mon", predicted: 85, actual: 82, staff: 12 },
@@ -294,6 +298,53 @@ const Report = () => {
 
   useEffect(() => {
     const fetchTableStatuses = async () => {
+      try {
+        const geminiPrompt = `Provide a 7-day weather forecast for London, UK, starting from tomorrow. 
+                              The output should be a JSON array of objects. 
+                              Each object should have:
+                              'date' (DD/MM format), 
+                              'highTempC' (integer, high temperature in Celsius), 
+                              'lowTempC' (integer, low temperature in Celsius), 
+                              'condition' (string, e.g., "Sunny", "Cloudy", "Rain", "Snow", "Thunderstorm"), 
+                              'pop' (integer, probability of precipitation in percent, 0-100).
+                              Ensure the JSON is valid and only contains the array of weather objects.`;
+        const token = localStorage.getItem("token")
+        const response = await axios.post('http://localhost:8000/api/ai/ask', 
+        {question: geminiPrompt},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Use the same token for dish API
+          },
+        });
+
+        let weatherSalesDataInitialValue = [
+          { date: "25/05", temp: 22, sales: 1200, weather: "sunny", forecast: 1350 },
+          { date: "26/05", temp: 18, sales: 980, weather: "rainy", forecast: 1100 },
+          { date: "27/05", temp: 25, sales: 1450, weather: "sunny", forecast: 1500 },
+          { date: "28/05", temp: 15, sales: 850, weather: "cloudy", forecast: 950 },
+          { date: "29/05", temp: 28, sales: 1600, weather: "sunny", forecast: 1650 },
+          { date: "30/05", temp: 12, sales: 750, weather: "rainy", forecast: 800 },
+          { date: "31/05", temp: 20, sales: 1100, weather: "cloudy", forecast: 1200 },
+        ]
+
+         var gptResponse = response.data.answer
+         console.log(gptResponse)
+        // gptResponse = JSON.parse(gptResponse)
+        // console.log(gptResponse)
+
+        // for(let i=0; i<weatherSalesDataInitialValue.length; i++){
+        //   weatherSalesDataInitialValue[i].date = gptResponse[i].date
+        // }
+        // console.log(response.data.answer)
+        // console.log(weatherSalesDataInitialValue)
+
+        setWeatherSalesData(weatherSalesDataInitialValue);
+
+      } catch (err) {
+        console.error("Weather API Call or Data Processing Error:", err);
+        setError(`Failed to fetch or process weather data. Error: ${err.message}`);
+      }
+
       try {
         const token = localStorage.getItem("token")
         const response = await axios.get("http://localhost:8000/api/table/tableStatus", {

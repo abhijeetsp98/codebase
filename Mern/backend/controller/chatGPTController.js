@@ -1,12 +1,17 @@
-import OpenAI from 'openai';
+import { GoogleGenerativeAI } from '@google/generative-ai'; 
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Create an OpenAI instance directly
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY; 
+if (!GEMINI_API_KEY) {
+  console.error("GEMINI_API_KEY is not set in environment variables.");
+  // Handle error, e.g., throw an exception or exit process
+}
+
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
 
 export const askGPT = async (req, res) => {
   const { question } = req.body;
@@ -16,16 +21,16 @@ export const askGPT = async (req, res) => {
   }
 
   try {
-    // Updated method path for v5
-    const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo', // Change to 'gpt-4' if you have access
-      messages: [{ role: 'user', content: question }],
-    });
+    // Construct the message in the format expected by Gemini API
+    const result = await model.generateContent(question);
+    const response = result.response;
+    const text = response.text(); // Get the text content from the response
 
-    const answer = response.choices[0]?.message?.content;
-    res.status(200).json({ answer });
+    res.status(200).json({ answer: text });
   } catch (err) {
-    console.error('OpenAI API error:', err);
-    res.status(500).json({ error: 'Failed to get AI response' });
+    console.error('Gemini API error:', err);
+    // You might want to log the specific error details from Gemini
+    // For example: console.error('Gemini error details:', err.response?.data);
+    res.status(500).json({ error: 'Failed to get AI response from Gemini' });
   }
 };
