@@ -7,6 +7,7 @@ import connectDB from "./config/db.js"
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoute.js';
 import tableRoute from './routes/tableRoutes.js'
+import projectRoute from './routes/projectRoutes.js'
 
 dotenv.config();
 connectDB();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use("/api/table", tableRoute);
+app.use("/api/projects", projectRoute);
 
 // 🟢 Start the server
 const PORT = process.env.PORT || 7000;
