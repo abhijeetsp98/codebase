@@ -5,7 +5,8 @@ import { protect } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 // Route to get table by table_number
-router.get('/getTable/:tableName', protect, getTableData);
-router.post('/setTable/:tableName', protect, setTableData);
+// router.get('/getTable/:tableName', protect, getTableData);
+router.get('/getTable/:tableName', getTableData);
+router.post('/setTable/:tableName',  setTableData);
 
 export default router;

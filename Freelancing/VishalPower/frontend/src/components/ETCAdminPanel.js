@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import axios from 'axios';
 
 const ETCAdminPanel = ({ user, selectedProject, onLogout, onProjectSelect, onCompanySelect, onBackToMain }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -368,9 +369,23 @@ const ETCAdminPanel = ({ user, selectedProject, onLogout, onProjectSelect, onCom
     }
   }, [submittedForms])
 
-  const handleCreateProject = () => {
+  const handleCreateProject = async () => {
     if (newProject.name && newProject.description && selectedDepartment) {
       const projectId = Math.max(...projects.map((p) => p.id), 0) + 1
+
+      try{
+        const response = await axios.post('http://localhost:8000/api/projects', {
+          projectName: newProject.name,
+          projectDescription: newProject.description,
+        });
+        const createdProject = response.data;
+
+      }catch(error){
+        console.error("Error creating project:", error);
+        alert("Failed to create project. Check console for details.");
+      }
+      
+      
 
       const project = {
         id: projectId,
