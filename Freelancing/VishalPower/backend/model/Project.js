@@ -9,6 +9,10 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  projectCompany: {
+    type: [Object],  
+    required: true
+  }
 }, { timestamps: true });
 
 export default mongoose.model('Project', projectSchema);

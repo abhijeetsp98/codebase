@@ -7,9 +7,9 @@ const router = express.Router();
 router.post('/', async (req, res) => {
   try {
     console.log("Add new project" )
-    const { projectName, projectDescription } = req.body;
+    const { projectName, projectDescription, projectCompany } = req.body;
     console.log("Adding project with detail", projectName, projectDescription)
-    const newProject = new Project({ projectName, projectDescription });
+    const newProject = new Project({ projectName, projectDescription, projectCompany });
     await newProject.save();
     res.status(201).json(newProject);
   } catch (error) {

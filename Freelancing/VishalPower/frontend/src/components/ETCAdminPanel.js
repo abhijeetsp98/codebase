@@ -372,21 +372,7 @@ const ETCAdminPanel = ({ user, selectedProject, onLogout, onProjectSelect, onCom
   const handleCreateProject = async () => {
     if (newProject.name && newProject.description && selectedDepartment) {
       const projectId = Math.max(...projects.map((p) => p.id), 0) + 1
-
-      try{
-        const response = await axios.post('http://localhost:8000/api/projects', {
-          projectName: newProject.name,
-          projectDescription: newProject.description,
-        });
-        const createdProject = response.data;
-
-      }catch(error){
-        console.error("Error creating project:", error);
-        alert("Failed to create project. Check console for details.");
-      }
       
-      
-
       const project = {
         id: projectId,
         name: newProject.name,
@@ -438,6 +424,19 @@ const ETCAdminPanel = ({ user, selectedProject, onLogout, onProjectSelect, onCom
           submittedStages: { 1: false, 2: false, 3: false },
         },
       ]
+
+      try{
+        const response = await axios.post('http://localhost:8000/api/projects', {
+          projectName: newProject.name,
+          projectDescription: newProject.description,
+          projectCompany: newCompanies
+        });
+        const createdProject = response.data;
+
+      }catch(error){
+        console.error("Error creating project:", error);
+        alert("Failed to create project. Check console for details.");
+      }
 
       setCompanies([...companies, ...newCompanies])
       setNewProject({ name: "", description: "" })

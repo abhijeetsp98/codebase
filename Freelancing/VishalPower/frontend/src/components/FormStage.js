@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import axios from "axios"
+import {API_BASE_URL} from '../constant'
 
 const FormStage = ({ stage, stageData, onStageComplete, onApproval, isETCAdmin, company }) => {
   const [currentForm, setCurrentForm] = useState(1)
@@ -56,9 +58,26 @@ const FormStage = ({ stage, stageData, onStageComplete, onApproval, isETCAdmin, 
   const allFormsCompleted = stageData.completed === stageData.total
   const isPendingApproval = allFormsCompleted && !stageData.approved && stageData.status === "pending-approval"
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
     try {
       const newCompletedCount = stageData.completed + 1
+
+      const API_URL = API_BASE_URL + '/api/table/setTable/1'
+      const response = await axios.post(API_URL, {
+        projectName: formData[`form${currentForm}_core_frame`],
+        companyName: formData[`form${currentForm}_core_frame`],
+        coreFrameObtainedValue: formData[`form${currentForm}_core_frame`],
+        coreFrameRemarks: formData[`form${currentForm}_core_frame_remarks`],
+        frameTankObtainedValue: formData[`form${currentForm}_frame_tank`],
+        frameTankRemarks: formData[`form${currentForm}_frame_tank_remarks`],
+        coreTankObtainedValue: formData[`form${currentForm}_core_tank`],
+        coreTankRemarks: formData[`form${currentForm}_core_tank_remarks`],
+        vpesSignature: formData[`form${currentForm}_core_frame`],
+        customerSignature: formData[`form${currentForm}_core_frame`],
+        date: formData[`form${currentForm}_signature_date`]
+    });
+
+    console.log("Form1 saved:", response.data);
 
       // Update company progress in localStorage immediately
       const savedCompanies = localStorage.getItem("companies")
